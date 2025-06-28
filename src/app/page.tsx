@@ -16,6 +16,7 @@ export default function Home() {
   };
 
   return (
+    
     <div
       className="relative min-h-screen flex flex-col items-center justify-between px-6 sm:px-20 py-12 font-[var(--font-geist-sans)] overflow-hidden"
       style={{

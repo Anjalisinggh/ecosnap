@@ -25,15 +25,3 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.clip-wave {
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 60%,
-    80% 70%,
-    60% 60%,
-    40% 70%,
-    20% 60%,
-    0 70%
-  );
-}
