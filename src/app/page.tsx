@@ -1,103 +1,117 @@
+'use client';
+
+import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [preview, setPreview] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+    }
+  };
+
+  return (
+    <div
+      className="relative min-h-screen flex flex-col items-center justify-between px-6 sm:px-20 py-12 font-[var(--font-geist-sans)] overflow-hidden"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, #4e7758, #6e936d, #90af84, #b3cc9b, #d8e9b3)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Glass Overlay */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-md z-0" />
+
+      {/* Main Content */}
+      <div className="relative z-10 w-full flex flex-col items-center">
+        <div className="text-center max-w-4xl">
+          <h1 className="text-4xl font-bold mb-4 text-[#2e4d3b]"> Welcome to the EcoSnap 🤍</h1>
+          <p className="text-lg text-[#2e4d3b]/80 mb-12">
+            Diagnose plant diseases with an AI-powered snap and maintain plant health with EcoSnap.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="flex-1 grid place-items-center w-full">
+          <div className="flex flex-col-reverse lg:flex-row gap-16 items-center w-full max-w-6xl">
+            {/* Upload Section */}
+            <div className="flex flex-col gap-6 max-w-xl text-center lg:text-left items-center lg:items-start">
+              <motion.h2
+                className="text-3xl sm:text-4xl font-bold"
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                Diagnose Plant Diseases with a Snap 🌿
+              </motion.h2>
+
+              <p className="text-lg text-[#070807]">
+                Upload a plant leaf photo to get instant AI-powered diagnosis and treatment advice. EcoSnap helps you keep your plants healthy and thriving.
+              </p>
+
+              <motion.label
+                htmlFor="fileInput"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-block px-6 py-3 bg-[#a8c3a1] text-[#1e2b20] font-medium rounded-xl cursor-pointer shadow-md transition"
+              >
+                Upload Plant Photo
+              </motion.label>
+
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+
+              {preview && (
+                <motion.div
+                  className="mt-4 rounded-xl overflow-hidden shadow-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <Image
+                    src={preview}
+                    alt="Plant Preview"
+                    width={300}
+                    height={300}
+                    className="object-cover rounded-xl"
+                  />
+                </motion.div>
+              )}
+            </div>
+
+            {/* Illustration */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="w-[300px] sm:w-[400px] flex-shrink-0"
+            >
+              <Image
+                src="/plant.png"
+                alt="Plant Illustration"
+                width={400}
+                height={400}
+                className="w-full h-auto"
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="text-sm text-[#000000] text-center mt-12">
+          Made with 🤍 by Anjali
+        </footer>
+      </div>
     </div>
   );
 }
