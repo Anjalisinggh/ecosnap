@@ -16,9 +16,10 @@ export const metadata: Metadata = {
   title: "Eco Snap",
   description:
     "A smart web app that lets users upload plant images and instantly identifies possible diseases with treatment suggestions. Great for farmers, gardeners, or plant lovers.",
-     icons: {
-    icon: "/plantt.png",
-  },
+    icons: {
+      icon: "/pla.ico",
+      },
+    
 };
 
 export default function RootLayout({
