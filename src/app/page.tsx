@@ -4,13 +4,24 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-// ✅ Hugging Face API setup
+// ✅ Hugging Face API setup (token from .env)
 const HUGGING_FACE_API_TOKEN = process.env.NEXT_PUBLIC_HF_TOKEN!;
 const MODEL_ENDPOINT = "https://api-inference.huggingface.co/models/linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification";
 
+// ✅ Types
+type Diagnosis = {
+  name: string;
+  confidence: string;
+};
+
+type Prediction = {
+  label: string;
+  score: number;
+};
+
 export default function Home() {
   const [preview, setPreview] = useState<string | null>(null);
-  const [diagnosis, setDiagnosis] = useState<any>(null);
+  const [diagnosis, setDiagnosis] = useState<Diagnosis | null>(null);
   const [loading, setLoading] = useState(false);
   const [lastRequestTime, setLastRequestTime] = useState<number>(0);
 
@@ -34,7 +45,7 @@ export default function Home() {
         return;
       }
 
-      const predictions = await res.json();
+      const predictions: Prediction[] = await res.json();
       console.log("Predictions:", predictions);
 
       const top = predictions[0];
@@ -141,7 +152,9 @@ export default function Home() {
               )}
 
               {loading && (
-                <p className="text-green-800 mt-4">🌿 Analyzing image... Please wait</p>
+                <p className="text-green-800 mt-4">
+                  🌿 Analyzing image... Please wait
+                </p>
               )}
 
               {diagnosis && (
