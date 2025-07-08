@@ -121,7 +121,7 @@ export default function UserDashboard() {
           <Button onClick={handleSignIn} className="w-full bg-green-600 hover:bg-green-700">
             Sign In
           </Button>
-          <p className="text-xs text-gray-500 text-center">Your data is stored locally on your device</p>
+         
         </CardContent>
       </Card>
     )

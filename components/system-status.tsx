@@ -242,11 +242,11 @@ export default function SystemStatus() {
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-2xl font-bold text-gray-800">{performance.lcp.toFixed(0)}ms</div>
               <div className="text-sm text-gray-600 mb-2">LCP</div>
-             <div className="inline-block bg-white shadow-md border rounded-lg px-3 py-1">
+           
   <Badge variant={getPerformanceGrade(performance.lcp, "lcp") === "A" ? "default" : "secondary"}>
     Grade {getPerformanceGrade(performance.lcp, "lcp")}
   </Badge>
-</div>
+
 
             </div>
 

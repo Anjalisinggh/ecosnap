@@ -3,145 +3,185 @@
 import type React from "react"
 
 import { useState, useRef } from "react"
-import { Camera, Upload, ArrowLeft, Loader2, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
+import { Card, CardContent } from "@/components/ui/card"
+import { ArrowLeft, Camera, Upload, Loader2, Leaf, Heart, Sparkles } from "lucide-react"
 import Image from "next/image"
 
-export default function PlantDetectionPage() {
+export default function PlantDetection() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [analysisResult, setAnalysisResult] = useState<any>(null)
+  const [analysisResult, setAnalysisResult] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isCameraActive, setIsCameraActive] = useState(false)
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        setSelectedImage(result)
+        analyzeImage(result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      })
       if (videoRef.current) {
         videoRef.current.srcObject = stream
         setIsCameraActive(true)
       }
     } catch (error) {
       console.error("Error accessing camera:", error)
+      alert("Unable to access camera. Please try uploading an image instead.")
     }
   }
 
   const capturePhoto = () => {
-    if (videoRef.current) {
-      const canvas = document.createElement("canvas")
-      canvas.width = videoRef.current.videoWidth
-      canvas.height = videoRef.current.videoHeight
-      const ctx = canvas.getContext("2d")
-      if (ctx) {
-        ctx.drawImage(videoRef.current, 0, 0)
+    if (videoRef.current && canvasRef.current) {
+      const canvas = canvasRef.current
+      const video = videoRef.current
+      const context = canvas.getContext("2d")
+
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+
+      if (context) {
+        context.drawImage(video, 0, 0)
         const imageData = canvas.toDataURL("image/jpeg")
         setSelectedImage(imageData)
-        stopCamera()
-        analyzeImage()
+        analyzeImage(imageData)
+
+        // Stop camera
+        const stream = video.srcObject as MediaStream
+        stream?.getTracks().forEach((track) => track.stop())
+        setIsCameraActive(false)
       }
     }
   }
 
-  const stopCamera = () => {
-    if (videoRef.current?.srcObject) {
-      const tracks = (videoRef.current.srcObject as MediaStream).getTracks()
-      tracks.forEach((track) => track.stop())
-      setIsCameraActive(false)
-    }
-  }
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setSelectedImage(e.target?.result as string)
-        analyzeImage()
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const analyzeImage = async () => {
+  const analyzeImage = async (imageData: string) => {
     setIsAnalyzing(true)
-    // Simulate AI analysis
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+    setAnalysisResult(null)
 
-    setAnalysisResult({
-      plantName: "Monstera Deliciosa",
-      commonName: "Swiss Cheese Plant",
-      confidence: 94,
-      health: "Good",
-      recommendations: [
-        "Water when top inch of soil is dry",
-        "Provide bright, indirect light",
-        "Maintain humidity above 50%",
-        "Fertilize monthly during growing season",
-      ],
-      issues: ["Slight yellowing on lower leaves - normal aging"],
-      nextCare: "Water in 2-3 days",
-    })
+    // Simulate AI analysis
+    setTimeout(() => {
+      setAnalysisResult(
+        "🌿 **Monstera Deliciosa** (Swiss Cheese Plant)\n\n**Confidence:** 94%\n\n**Care Instructions:**\n• Bright, indirect light ☀️\n• Water when top soil is dry 💧\n• High humidity preferred 💨\n• Temperature: 65-80°F 🌡️\n\n**Health Status:** Healthy specimen ✨\n**Growth Stage:** Mature 🌱",
+      )
+      setIsAnalyzing(false)
+    }, 2000)
+  }
+
+  const resetAnalysis = () => {
+    setSelectedImage(null)
+    setAnalysisResult(null)
     setIsAnalyzing(false)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
+      <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Link href="/">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold text-gray-800">Plant Detection</h1>
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={resetAnalysis}
+            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-full px-4 bg-transparent"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
+              <Leaf className="w-5 h-5 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
+              Plant Detection
+            </h1>
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Camera/Upload Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Capture or Upload Plant Image</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Left Section - Image Capture/Upload */}
+          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden">
+            <CardContent className="p-8 space-y-6">
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full mb-4">
+                  <Camera className="w-5 h-5 text-emerald-600" />
+                  <h2 className="text-lg font-semibold text-emerald-800">Capture or Upload Plant Image</h2>
+                </div>
+              </div>
+
               {!selectedImage && !isCameraActive && (
-                <div className="space-y-4">
-                  <Button onClick={startCamera} className="w-full" size="lg">
-                    <Camera className="w-5 h-5 mr-2" />
-                    Use Camera
-                  </Button>
+                <div className="space-y-6">
+                  <div className="flex flex-col items-center space-y-6">
+                    <div className="w-32 h-32 bg-gradient-to-br from-emerald-100 to-green-100 rounded-full flex items-center justify-center mb-4">
+                      <div className="w-20 h-20 bg-gradient-to-br from-emerald-200 to-green-200 rounded-full flex items-center justify-center">
+                        <Leaf className="w-10 h-10 text-emerald-600" />
+                      </div>
+                    </div>
 
-                  <div className="text-center text-gray-500">or</div>
+                    <Button
+                      onClick={startCamera}
+                      size="lg"
+                      className="w-full max-w-xs bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      <Camera className="w-5 h-5 mr-2" />
+                      Use Camera
+                    </Button>
 
-                  <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full" size="lg">
-                    <Upload className="w-5 h-5 mr-2" />
-                    Upload Image
-                  </Button>
+                    <div className="flex items-center gap-3">
+                      <div className="h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent flex-1"></div>
+                      <span className="text-emerald-600 text-sm font-medium">or</span>
+                      <div className="h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent flex-1"></div>
+                    </div>
 
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
+                    <Button
+                      onClick={() => fileInputRef.current?.click()}
+                      variant="outline"
+                      size="lg"
+                      className="w-full max-w-xs border-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      <Upload className="w-5 h-5 mr-2" />
+                      Upload Image
+                    </Button>
+                  </div>
                 </div>
               )}
 
               {isCameraActive && (
                 <div className="space-y-4">
-                  <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg" />
-                  <div className="flex gap-2">
-                    <Button onClick={capturePhoto} className="flex-1">
+                  <video ref={videoRef} autoPlay playsInline className="w-full rounded-2xl shadow-lg" />
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={capturePhoto}
+                      className="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 rounded-full shadow-lg"
+                    >
                       <Camera className="w-4 h-4 mr-2" />
-                      Capture
+                      Capture Photo
                     </Button>
-                    <Button onClick={stopCamera} variant="outline">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        const stream = videoRef.current?.srcObject as MediaStream
+                        stream?.getTracks().forEach((track) => track.stop())
+                        setIsCameraActive(false)
+                      }}
+                      className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 rounded-full"
+                    >
                       Cancel
                     </Button>
                   </div>
@@ -156,79 +196,94 @@ export default function PlantDetectionPage() {
                       alt="Selected plant"
                       width={400}
                       height={300}
-                      className="w-full rounded-lg object-cover"
+                      className="w-full rounded-2xl object-cover shadow-lg"
                     />
+                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
+                      <Heart className="w-5 h-5 text-emerald-500" />
+                    </div>
                   </div>
                   <Button
-                    onClick={() => {
-                      setSelectedImage(null)
-                      setAnalysisResult(null)
-                    }}
+                    onClick={resetAnalysis}
                     variant="outline"
-                    className="w-full"
+                    className="w-full border-emerald-300 text-emerald-700 hover:bg-emerald-50 rounded-full bg-transparent"
                   >
+                    <Sparkles className="w-4 h-4 mr-2" />
                     Take Another Photo
                   </Button>
                 </div>
               )}
+
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+              <canvas ref={canvasRef} className="hidden" />
             </CardContent>
           </Card>
 
-          {/* Analysis Results */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Analysis Results</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {!selectedImage && (
-                <div className="text-center text-gray-500 py-8">Take a photo or upload an image to get started</div>
-              )}
-
-              {isAnalyzing && (
-                <div className="text-center py-8">
-                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-green-600" />
-                  <p className="text-gray-600">Analyzing your plant...</p>
+          {/* Right Section - Analysis Results */}
+          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden">
+            <CardContent className="p-8 space-y-6">
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-100 to-emerald-100 px-4 py-2 rounded-full mb-4">
+                  <Sparkles className="w-5 h-5 text-teal-600" />
+                  <h2 className="text-lg font-semibold text-teal-800">Analysis Results</h2>
                 </div>
-              )}
+              </div>
 
-              {analysisResult && (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span className="font-semibold text-green-600">Analysis Complete</span>
+              <div className="min-h-[300px] flex items-center justify-center">
+                {!selectedImage && !isAnalyzing && (
+                  <div className="text-center space-y-4">
+                    <div className="w-24 h-24 bg-gradient-to-br from-teal-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto">
+                      <Leaf className="w-12 h-12 text-teal-500" />
+                    </div>
+                    <p className="text-emerald-600 font-medium">Take a photo or upload an image to get started</p>
+                    <p className="text-emerald-500 text-sm">Let's discover what plant you have! 🌱</p>
                   </div>
+                )}
 
-                  <div>
-                    <h3 className="font-bold text-xl text-gray-800">{analysisResult.plantName}</h3>
-                    <p className="text-gray-600">{analysisResult.commonName}</p>
-                    <Badge variant="outline" className="mt-2">
-                      {analysisResult.confidence}% confidence
-                    </Badge>
+                {isAnalyzing && (
+                  <div className="flex flex-col items-center space-y-6">
+                    <div className="relative">
+                      <div className="w-16 h-16 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full flex items-center justify-center">
+                        <Loader2 className="w-8 h-8 animate-spin text-white" />
+                      </div>
+                      <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
+                        <Sparkles className="w-3 h-3 text-white" />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-emerald-700 font-semibold">Analyzing your plant...</p>
+                      <p className="text-emerald-500 text-sm">This might take a moment ✨</p>
+                    </div>
                   </div>
+                )}
 
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">Health Status</h4>
-                    <Badge className="bg-green-100 text-green-800">{analysisResult.health}</Badge>
-                  </div>
+                {analysisResult && (
+                  <div className="w-full space-y-6">
+                    <div className="bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200 rounded-2xl p-6 shadow-inner">
+                      <div className="whitespace-pre-line text-sm text-emerald-800 leading-relaxed">
+                        {analysisResult}
+                      </div>
+                    </div>
 
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">Care Recommendations</h4>
-                    <ul className="space-y-1 text-sm text-gray-600">
-                      {analysisResult.recommendations.map((rec: string, index: number) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-green-600 mt-1">•</span>
-                          {rec}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="flex gap-3">
+                      <Button
+                        size="sm"
+                        className="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 rounded-full shadow-lg"
+                      >
+                        <Heart className="w-4 h-4 mr-2" />
+                        Save to Collection
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50 rounded-full bg-transparent"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2" />
+                        Share Results
+                      </Button>
+                    </div>
                   </div>
-
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">Next Care Action</h4>
-                    <p className="text-sm text-blue-600 bg-blue-50 p-2 rounded">{analysisResult.nextCare}</p>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </CardContent>
           </Card>
         </div>

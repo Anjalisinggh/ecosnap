@@ -29,7 +29,7 @@ export default function PlantCarePage() {
       duration: "8 min read",
       difficulty: "Beginner",
       rating: 4.8,
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/water.jpg?height=200&width=300",
       description: "Learn the fundamentals of proper plant watering techniques",
     },
     {
@@ -39,7 +39,7 @@ export default function PlantCarePage() {
       duration: "6 min read",
       difficulty: "Beginner",
       rating: 4.9,
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/light.jpg?height=200&width=300",
       description: "Master the art of providing optimal lighting for your plants",
     },
     {
@@ -49,7 +49,7 @@ export default function PlantCarePage() {
       duration: "10 min read",
       difficulty: "Intermediate",
       rating: 4.7,
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/mons.jpg?height=200&width=300",
       description: "Everything you need to know about caring for Monstera plants",
     },
     {
@@ -59,32 +59,34 @@ export default function PlantCarePage() {
       duration: "12 min read",
       difficulty: "Intermediate",
       rating: 4.6,
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/su.jpg?height=200&width=300",
       description: "Step-by-step guide to propagating your favorite succulents",
     },
   ]
 
   const videos = [
     {
-      id: 1,
-      title: "Repotting Your Plants: A Visual Guide",
-      duration: "15:30",
-      views: "125K",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-    },
+  id: 1,
+  title: "Repotting Your Plants: A Visual Guide",
+  duration: "15:30",
+  views: "125K",
+  video: "/repotting.jpg", // separate key for video
+  thumbnail: "/thumbnails/repotting.jpg", // fallback
+}
+,
     {
       id: 2,
       title: "Identifying Common Plant Pests",
       duration: "12:45",
       views: "89K",
-      thumbnail: "/placeholder.svg?height=180&width=320",
+      thumbnail: "/thumbnails/plantpest.jpg?height=180&width=320",
     },
     {
       id: 3,
       title: "Creating the Perfect Plant Corner",
       duration: "18:20",
       views: "203K",
-      thumbnail: "/placeholder.svg?height=180&width=320",
+      thumbnail: "/thumbnails/corner.jpg?height=180&width=320",
     },
   ]
 
