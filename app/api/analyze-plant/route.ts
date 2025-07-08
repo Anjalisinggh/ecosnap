@@ -1,10 +1,14 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server";
 
-// Expanded disease database with real plant diseases
+interface HFResult {
+  label: string;
+  score: number;
+}
+
 const diseaseDatabase = {
   apple_scab: {
     disease: "Apple Scab",
-    description: "Fungal disease causing dark, scabby lesions on leaves and fruit",
+    description: "Fungal disease causing dark, scabby lesions on leaves and fruit.",
     severity: "Medium" as const,
     treatment: [
       "Apply fungicide containing captan or myclobutanil",
@@ -21,7 +25,7 @@ const diseaseDatabase = {
   },
   tomato_blight: {
     disease: "Tomato Late Blight",
-    description: "Devastating fungal disease affecting tomato plants",
+    description: "Devastating fungal disease affecting tomato plants.",
     severity: "High" as const,
     treatment: [
       "Apply copper-based fungicide immediately",
@@ -38,7 +42,7 @@ const diseaseDatabase = {
   },
   powdery_mildew: {
     disease: "Powdery Mildew",
-    description: "White powdery fungal coating on leaf surfaces",
+    description: "White powdery fungal coating on leaf surfaces.",
     severity: "Medium" as const,
     treatment: [
       "Spray with baking soda solution (1 tsp per quart)",
@@ -55,7 +59,7 @@ const diseaseDatabase = {
   },
   leaf_spot: {
     disease: "Bacterial Leaf Spot",
-    description: "Bacterial infection causing dark spots with yellow halos",
+    description: "Bacterial infection causing dark spots with yellow halos.",
     severity: "Medium" as const,
     treatment: [
       "Apply copper-based bactericide",
@@ -72,7 +76,7 @@ const diseaseDatabase = {
   },
   rust: {
     disease: "Plant Rust",
-    description: "Fungal disease causing orange/brown pustules on leaves",
+    description: "Fungal disease causing orange/brown pustules on leaves.",
     severity: "High" as const,
     treatment: [
       "Apply systemic fungicide containing propiconazole",
@@ -89,7 +93,7 @@ const diseaseDatabase = {
   },
   healthy: {
     disease: "Healthy Plant",
-    description: "No disease detected - plant appears healthy",
+    description: "No disease detected – plant appears healthy.",
     severity: "Low" as const,
     treatment: [
       "Continue current care routine",
@@ -104,7 +108,7 @@ const diseaseDatabase = {
       "Inspect plants weekly for early detection",
     ],
   },
-}
+};
 
 async function analyzeWithHuggingFace(imageBase64: string) {
   const response = await fetch(
@@ -116,102 +120,91 @@ async function analyzeWithHuggingFace(imageBase64: string) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      // Hugging Face accepts base64 data inside a JSON payload
       body: JSON.stringify({ inputs: imageBase64 }),
-    },
-  )
+    }
+  );
 
   if (!response.ok) {
-    // Forward the exact HF error for easier debugging
-    const errText = await response.text()
-    throw new Error(`HF API ${response.status}: ${errText}`)
+    const errorText = await response.text();
+    throw new Error(`HF API ${response.status}: ${errorText}`);
   }
 
-  return (await response.json()) as Array<{ label: string; score: number }>
+  return (await response.json()) as HFResult[];
 }
 
-function mapHuggingFaceToDisease(hfResult: any[]) {
-  if (!hfResult || hfResult.length === 0) {
-    return { ...diseaseDatabase.healthy, confidence: 50 }
+function mapResultToDisease(result: HFResult[]) {
+  if (!result || result.length === 0) {
+    return { ...diseaseDatabase.healthy, confidence: 50 };
   }
 
-  const topResult = hfResult[0]
-  const confidence = Math.round(topResult.score * 100)
+  const { label, score } = result[0];
+  const confidence = Math.round(score * 100);
+  const key = label.toLowerCase();
 
-  // Map Hugging Face labels to our disease database
-  const label = topResult.label.toLowerCase()
-
-  if (label.includes("scab")) {
-    return { ...diseaseDatabase.apple_scab, confidence }
-  } else if (label.includes("blight")) {
-    return { ...diseaseDatabase.tomato_blight, confidence }
-  } else if (label.includes("mildew")) {
-    return { ...diseaseDatabase.powdery_mildew, confidence }
-  } else if (label.includes("spot")) {
-    return { ...diseaseDatabase.leaf_spot, confidence }
-  } else if (label.includes("rust")) {
-    return { ...diseaseDatabase.rust, confidence }
-  } else if (label.includes("healthy")) {
-    return { ...diseaseDatabase.healthy, confidence }
-  } else {
-    // Default to a generic disease if not found
+  if (confidence < 40) {
     return {
-       disease: topResult.label.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
-      description: "Disease detected - consult with a plant specialist for specific treatment",
-      severity: "Medium" as const,
+      ...diseaseDatabase.healthy,
+      description: "Confidence too low for a reliable result. Try again with better lighting.",
       confidence,
-      treatment: [
-        "Isolate affected plant",
-        "Remove infected parts",
-        "Apply broad-spectrum fungicide",
-        "Monitor closely for changes",
-      ],
-      prevention: [
-        "Maintain good plant hygiene",
-        "Ensure proper air circulation",
-        "Water at soil level",
-        "Regular plant inspection",
-      ],
-    }
+    };
   }
+
+  if (key.includes("scab")) return { ...diseaseDatabase.apple_scab, confidence };
+  if (key.includes("blight")) return { ...diseaseDatabase.tomato_blight, confidence };
+  if (key.includes("mildew")) return { ...diseaseDatabase.powdery_mildew, confidence };
+  if (key.includes("spot")) return { ...diseaseDatabase.leaf_spot, confidence };
+  if (key.includes("rust")) return { ...diseaseDatabase.rust, confidence };
+  if (key.includes("healthy")) return { ...diseaseDatabase.healthy, confidence };
+
+  return {
+    disease: label.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()),
+    description: "Disease detected – consult a plant specialist for treatment.",
+    severity: "Medium" as const,
+    confidence,
+    treatment: [
+      "Isolate affected plant",
+      "Remove infected parts",
+      "Apply broad-spectrum fungicide",
+      "Monitor closely for changes",
+    ],
+    prevention: [
+      "Maintain good plant hygiene",
+      "Ensure proper air circulation",
+      "Water at soil level",
+      "Regular plant inspection",
+    ],
+  };
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const { image, userId } = await request.json()
+    const { image, userId } = await req.json();
 
     if (!image) {
-      return NextResponse.json({ error: "No image provided" }, { status: 400 })
+      return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
     if (!process.env.HUGGINGFACE_API_KEY) {
-      return NextResponse.json({ error: "HUGGINGFACE_API_KEY env variable is missing" }, { status: 500 })
+      return NextResponse.json({ error: "HUGGINGFACE_API_KEY is missing in environment" }, { status: 500 });
     }
 
-    // Analyze with Hugging Face AI
-    const hfResult = await analyzeWithHuggingFace(image)
-    const diseaseInfo = mapHuggingFaceToDisease(hfResult)
+    const result = await analyzeWithHuggingFace(image);
+    const disease = mapResultToDisease(result);
 
-    // Save analysis to user history (if userId provided)
     if (userId) {
-      // In a real app, you'd save this to a database
-      console.log(`Saving analysis for user ${userId}:`, diseaseInfo.disease)
+      console.log(`Saving analysis for user ${userId}: ${disease.disease}`);
     }
-
-    console.log("HF raw result:", hfResult)
 
     return NextResponse.json({
-      ...diseaseInfo,
+      ...disease,
       timestamp: new Date().toISOString(),
-      analysisId: Math.random().toString(36).substr(2, 9),
-    })
-  } catch (error) {
-    console.error("Analysis error:", error)
+      analysisId: Math.random().toString(36).substring(2, 9),
+    });
+  } catch (err) {
+    console.error("Analysis error:", err);
     return NextResponse.json(
-      {
-        error: "Failed to analyze image. Please try again.",
-      },
-      { status: 500 },
-    )
+      { error: "Failed to analyze image. Please try again." },
+      { status: 500 }
+    );
   }
 }

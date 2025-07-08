@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link"
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -376,6 +376,7 @@ export default function PlantDiseaseDetector() {
 
       {/* Feature Info Cards */}
       <div className="grid md:grid-cols-3 gap-4 mt-8">
+        <Link href="/ai-features">
         <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
           <CardContent className="pt-6 text-center">
             <Camera className="w-10 h-10 mx-auto text-green-600 mb-3" />
@@ -383,7 +384,8 @@ export default function PlantDiseaseDetector() {
             <p className="text-sm text-green-600 mt-1 font-medium">Advanced ML models detect 30+ diseases</p>
           </CardContent>
         </Card>
-
+</Link>
+         <Link href="/monitoring">
         <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
           <CardContent className="pt-6 text-center">
             <TrendingUp className="w-10 h-10 mx-auto text-blue-600 mb-3" />
@@ -391,7 +393,9 @@ export default function PlantDiseaseDetector() {
             <p className="text-sm text-blue-600 mt-1 font-medium">Track performance with advanced analytics</p>
           </CardContent>
         </Card>
+      </Link>
 
+        <Link href="/expert-tips">
         <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
           <CardContent className="pt-6 text-center">
             <CheckCircle className="w-10 h-10 mx-auto text-purple-600 mb-3" />
@@ -399,6 +403,7 @@ export default function PlantDiseaseDetector() {
             <p className="text-sm text-purple-600 mt-1 font-medium">Curated treatment plans from specialists</p>
           </CardContent>
         </Card>
+        </Link>
       </div>
     </div>
   )
