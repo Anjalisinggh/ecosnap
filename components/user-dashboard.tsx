@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import { History, User, Calendar, TrendingUp, Leaf } from "lucide-react"
 import { Auth } from "firebase/auth"
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth"
-import { getAuth } from "firebase/auth"
-
+// import { getAuth } from "firebase/auth"
+import{auth}from "../lib/firebaseConfig"
 interface AnalysisHistory {
   id: string
   disease: string
@@ -26,7 +26,7 @@ interface UserStats {
 }
 
 export default function UserDashboard() {
-  const auth = getAuth();
+  // const auth = getAuth()
   const [user, setUser] = useState<{ email: string } | null>(null)
   const [history, setHistory] = useState<AnalysisHistory[]>([])
   const [stats, setStats] = useState<UserStats>({
