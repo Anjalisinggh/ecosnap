@@ -1,0 +1,202 @@
+[
+  {
+    "id": "issue-1",
+    "problem": "Yellowing Leaves",
+    "cause": "Overwatering or poor drainage",
+    "fix": "Allow soil to dry, improve drainage, reduce watering",
+    "severity": "Moderate",
+    "category": "Watering"
+  },
+  {
+    "id": "issue-2",
+    "problem": "Brown Leaf Tips",
+    "cause": "Low humidity or salt buildup",
+    "fix": "Increase humidity and flush soil occasionally",
+    "severity": "Mild",
+    "category": "Environment"
+  },
+  {
+    "id": "issue-3",
+    "problem": "Drooping Leaves",
+    "cause": "Underwatering or overwatering",
+    "fix": "Check moisture level, adjust watering schedule",
+    "severity": "Moderate",
+    "category": "Watering"
+  },
+  {
+    "id": "issue-4",
+    "problem": "Wilting Leaves",
+    "cause": "Root rot or heat stress",
+    "fix": "Repot in dry soil, provide shade",
+    "severity": "Severe",
+    "category": "Root"
+  },
+  {
+    "id": "issue-5",
+    "problem": "Moldy Soil Surface",
+    "cause": "Poor airflow and high humidity",
+    "fix": "Improve ventilation, let soil dry out",
+    "severity": "Mild",
+    "category": "Soil"
+  },
+  {
+    "id": "issue-6",
+    "problem": "Leaf Curling",
+    "cause": "Too much direct sunlight or pests",
+    "fix": "Move to indirect light, inspect for pests",
+    "severity": "Moderate",
+    "category": "Light"
+  },
+  {
+    "id": "issue-7",
+    "problem": "Sticky Residue on Leaves",
+    "cause": "Aphid infestation",
+    "fix": "Spray with neem oil or insecticidal soap",
+    "severity": "Moderate",
+    "category": "Pests"
+  },
+  {
+    "id": "issue-8",
+    "problem": "White Powder on Leaves",
+    "cause": "Powdery mildew",
+    "fix": "Remove infected leaves and use fungicide",
+    "severity": "Severe",
+    "category": "Fungal"
+  },
+  {
+    "id": "issue-9",
+    "problem": "Black Spots on Leaves",
+    "cause": "Leaf spot fungus",
+    "fix": "Trim affected areas, avoid overhead watering",
+    "severity": "Severe",
+    "category": "Fungal"
+  },
+  {
+    "id": "issue-10",
+    "problem": "Leaves Falling Off",
+    "cause": "Sudden temperature changes or stress",
+    "fix": "Keep environment stable, avoid drafts",
+    "severity": "Moderate",
+    "category": "Environment"
+  },
+  {
+    "id": "issue-11",
+    "problem": "Pale Leaves",
+    "cause": "Lack of nutrients or light",
+    "fix": "Fertilize and ensure proper lighting",
+    "severity": "Mild",
+    "category": "Nutrition"
+  },
+  {
+    "id": "issue-12",
+    "problem": "No New Growth",
+    "cause": "Dormant season or poor soil",
+    "fix": "Wait for growing season or repot with fresh soil",
+    "severity": "Mild",
+    "category": "Growth"
+  },
+  {
+    "id": "issue-13",
+    "problem": "Mushy Stem",
+    "cause": "Stem rot due to overwatering",
+    "fix": "Cut off rot, propagate healthy parts",
+    "severity": "Severe",
+    "category": "Root"
+  },
+  {
+    "id": "issue-14",
+    "problem": "Spindly or Leggy Growth",
+    "cause": "Insufficient light",
+    "fix": "Move closer to window or use grow light",
+    "severity": "Moderate",
+    "category": "Light"
+  },
+  {
+    "id": "issue-15",
+    "problem": "Tiny Holes in Leaves",
+    "cause": "Caterpillars or beetles",
+    "fix": "Inspect and remove pests manually",
+    "severity": "Moderate",
+    "category": "Pests"
+  },
+  {
+    "id": "issue-16",
+    "problem": "Cracked Soil",
+    "cause": "Underwatering or compacted soil",
+    "fix": "Water thoroughly, loosen or repot soil",
+    "severity": "Mild",
+    "category": "Soil"
+  },
+  {
+    "id": "issue-17",
+    "problem": "Leaves Turning Red or Purple",
+    "cause": "Cold stress or phosphorus deficiency",
+    "fix": "Move to warmer area, fertilize properly",
+    "severity": "Moderate",
+    "category": "Nutrition"
+  },
+  {
+    "id": "issue-18",
+    "problem": "Spider Webs on Plant",
+    "cause": "Spider mite infestation",
+    "fix": "Spray with water, use miticide or neem oil",
+    "severity": "Severe",
+    "category": "Pests"
+  },
+  {
+    "id": "issue-19",
+    "problem": "Brown Spots on Leaves",
+    "cause": "Sunburn or fungal issues",
+    "fix": "Move out of direct sunlight, prune affected areas",
+    "severity": "Moderate",
+    "category": "Light"
+  },
+  {
+    "id": "issue-20",
+    "problem": "Algae on Soil",
+    "cause": "Too much moisture and low light",
+    "fix": "Let soil dry and increase light exposure",
+    "severity": "Mild",
+    "category": "Soil"
+  },
+  {
+    "id": "issue-21",
+    "problem": "White Fluff on Stems",
+    "cause": "Mealybugs",
+    "fix": "Remove manually, use rubbing alcohol",
+    "severity": "Moderate",
+    "category": "Pests"
+  },
+  {
+    "id": "issue-22",
+    "problem": "Fungus Gnats",
+    "cause": "Excess soil moisture",
+    "fix": "Let topsoil dry, use sticky traps or neem oil",
+    "severity": "Mild",
+    "category": "Pests"
+  },
+  {
+    "id": "issue-23",
+    "problem": "Leaf Edges Curling Inward",
+    "cause": "Heat stress or underwatering",
+    "fix": "Move away from heat sources, water more consistently",
+    "severity": "Moderate",
+    "category": "Environment"
+  },
+  {
+    "id": "issue-24",
+    "problem": "Discoloration Between Veins",
+    "cause": "Magnesium deficiency",
+    "fix": "Apply Epsom salt solution or balanced fertilizer",
+    "severity": "Moderate",
+    "category": "Nutrition"
+  },
+  {
+    "id": "issue-25",
+    "problem": "Stunted Growth",
+    "cause": "Poor lighting or nutrient deficiency",
+    "fix": "Improve lighting and apply fertilizer",
+    "severity": "Moderate",
+    "category": "Growth"
+  }
+]

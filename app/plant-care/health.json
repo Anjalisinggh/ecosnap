@@ -1,145 +1,218 @@
 [
   {
     "id": "1",
-    "title": "test",
-    "duration": "5 min read",
+    "title": "Yellowing Leaves",
+    "duration": "4 min read",
     "difficulty": "Beginner",
-    "rating": 4.9,
-    "isCompleted": true,
-    "isBookmarked": true,
-    "hasVideo": true,
-    "description": "Learn the fundamental needs every plant has: light, water, nutrients, and proper environment.",
-    "steps": [
-      "Identify testht)",
-      "Check stestwth: new leaves, strong stems, vibrant colors",
-      "Monitor temperature atestr plant's location",
-      "Establish a regular care routine based on your plant's specific needs"
-    ],
-    "tips": [
-      "Most houseplants prefer bright, indirect light",
-      "Overwatering is more harmful than underwatering",
-      "Group plants with similar needs together"
-    ],
-    "icon": "Leaf"
-  },
-  {
-    "id": "2",
-    "title": "Proper Watering Techniques",
-    "duration": "7 min read",
-    "difficulty": "Beginner",
-    "rating": 4.8,
+    "rating": 4.7,
     "isCompleted": false,
     "isBookmarked": false,
-    "hasVideo": true,
-    "description": "Master the art of watering - when, how much, and what type of water to use.",
+    "hasVideo": false,
+    "description": "Learn what causes leaves to turn yellow and how to fix it.",
     "steps": [
-      "Check soil moisture before watering using the finger test",
-      "Water thoroughly until water drains from the bottom holes",
-      "Use room temperature water to avoid shocking the roots",
-      "Water in the morning to allow plants to absorb moisture during active hours",
-      "Empty drainage trays after 30 minutes to prevent root rot"
+      "Check soil moisture — overwatering is a common cause",
+      "Ensure the pot has drainage holes",
+      "Look for signs of pests like spider mites",
+      "Move plant to a brighter location if light is low"
     ],
     "tips": [
-      "Yellow leaves often indicate overwatering",
-      "Use filtered or distilled water for sensitive plants",
-      "Bottom watering works great for plants with fuzzy leaves"
+      "Let soil dry out between waterings",
+      "Avoid cold drafts",
+      "Remove affected leaves to redirect energy"
     ],
     "icon": "Droplets"
   },
   {
-    "id": "3",
-    "title": "Light Requirements Guide",
-    "duration": "6 min read",
+    "id": "2",
+    "title": "Wilting Leaves",
+    "duration": "3 min read",
     "difficulty": "Beginner",
-    "rating": 4.7,
+    "rating": 4.6,
     "isCompleted": false,
     "isBookmarked": true,
     "hasVideo": false,
-    "description": "Understand different light conditions and how to provide the right amount for your plants.",
+    "description": "Wilting can mean too little or too much water.",
     "steps": [
-      "Identify the natural light in your space throughout the day",
-      "Learn the difference between direct and indirect sunlight",
-      "Use a light meter app to measure light intensity",
-      "Position plants according to their light preferences",
-      "Consider grow lights for low-light spaces"
+      "Stick your finger into the soil to check moisture",
+      "Water if dry, reduce watering if soggy",
+      "Check for root rot by gently removing the plant from pot",
+      "Increase humidity if air is too dry"
     ],
     "tips": [
-      "South-facing windows get the most light",
-      "Rotate plants weekly for even growth",
-      "Sheer curtains can provide perfect indirect light"
-    ],
-    "icon": "Sun"
-  },
-  {
-    "id": "4",
-    "title": "Soil and Repotting Basics",
-    "duration": "8 min read",
-    "difficulty": "Intermediate",
-    "rating": 4.6,
-    "isCompleted": false,
-    "isBookmarked": false,
-    "hasVideo": true,
-    "description": "Learn about different soil types and when and how to repot your plants.",
-    "steps": [
-      "Choose the right soil mix for your plant type",
-      "Check if your plant needs repotting (roots growing out of drainage holes)",
-      "Select a pot only 1-2 inches larger than the current one",
-      "Gently remove old soil and inspect roots for health",
-      "Plant at the same depth as before and water lightly"
-    ],
-    "tips": [
-      "Spring is the best time for repotting",
-      "Add perlite to improve drainage",
-      "Don't fertilize immediately after repotting"
+      "Always water thoroughly but infrequently",
+      "Use a moisture meter for accuracy"
     ],
     "icon": "Leaf"
   },
   {
-    "id": "5",
-    "title": "Temperature and Humidity Control",
-    "duration": "5 min read",
+    "id": "3",
+    "title": "Brown Leaf Tips",
+    "duration": "2 min read",
     "difficulty": "Beginner",
     "rating": 4.5,
     "isCompleted": false,
     "isBookmarked": false,
     "hasVideo": false,
-    "description": "Create the perfect environment for your plants with proper temperature and humidity.",
+    "description": "Brown tips are often a sign of low humidity or water quality.",
     "steps": [
-      "Maintain consistent temperatures between 65-75°F (18-24°C)",
-      "Avoid placing plants near heating/cooling vents",
-      "Increase humidity with pebble trays or humidifiers",
-      "Group plants together to create a microclimate",
-      "Monitor with a thermometer and hygrometer"
+      "Increase humidity with misting or pebble trays",
+      "Use filtered or rain water instead of tap water",
+      "Trim brown tips with clean scissors"
     ],
     "tips": [
-      "Most houseplants prefer 40-60% humidity",
-      "Misting can help but avoid fuzzy-leaved plants",
-      "Bathrooms naturally have higher humidity"
+      "Avoid letting soil dry out completely",
+      "Group plants to create a humid microclimate"
     ],
     "icon": "Thermometer"
   },
   {
-    "id": "6",
-    "title": "Fertilizing Fundamentals",
-    "duration": "6 min read",
+    "id": "4",
+    "title": "Leggy Growth",
+    "duration": "5 min read",
     "difficulty": "Intermediate",
-    "rating": 4.4,
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Plants become leggy when they don’t get enough light.",
+    "steps": [
+      "Move plant to a brighter location",
+      "Use a grow light if needed",
+      "Prune leggy stems to encourage bushier growth"
+    ],
+    "tips": [
+      "Rotate your plant weekly for even light exposure",
+      "South-facing windows offer strongest light"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "5",
+    "title": "Root Rot",
+    "duration": "6 min read",
+    "difficulty": "Advanced",
+    "rating": 4.8,
     "isCompleted": false,
     "isBookmarked": true,
     "hasVideo": true,
-    "description": "Learn when, how, and what to feed your plants for optimal growth.",
+    "description": "Overwatering often leads to root rot, a serious issue.",
     "steps": [
-      "Fertilize during growing season (spring and summer)",
-      "Dilute liquid fertilizer to half the recommended strength",
-      "Apply fertilizer to moist soil, never dry soil",
-      "Look for signs your plant needs feeding: slow growth, pale leaves",
-      "Stop fertilizing in fall and winter when growth slows"
+      "Unpot the plant and check roots — mushy and brown means rot",
+      "Cut off all affected roots with sterile scissors",
+      "Repot in fresh, well-draining soil",
+      "Water only when soil is dry"
     ],
     "tips": [
-      "Less is more when it comes to fertilizing",
-      "Organic fertilizers release nutrients slowly",
-      "Flush soil occasionally to prevent salt buildup"
+      "Use pots with drainage holes",
+      "Avoid letting plant sit in excess water"
     ],
-    "icon": "Heart"
+    "icon": "Droplets"
+  },
+  {
+    "id": "6",
+    "title": "Pests: Spider Mites",
+    "duration": "5 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Spider mites leave fine webs and cause speckled leaves.",
+    "steps": [
+      "Inspect leaves for fine webbing and specks",
+      "Wipe leaves with soapy water or neem oil",
+      "Isolate the plant to avoid spreading",
+      "Repeat treatment weekly until gone"
+    ],
+    "tips": [
+      "Mist often – spider mites hate humidity",
+      "Regularly check under leaves"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "7",
+    "title": "Powdery Mildew",
+    "duration": "4 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "This fungal disease shows as white powder on leaves.",
+    "steps": [
+      "Remove affected leaves",
+      "Improve air circulation around plant",
+      "Spray with diluted milk or baking soda solution"
+    ],
+    "tips": [
+      "Avoid overhead watering",
+      "Ensure space between plants"
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "8",
+    "title": "No Growth",
+    "duration": "3 min read",
+    "difficulty": "Beginner",
+    "rating": 4.2,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "If your plant hasn’t grown in months, here’s what to check.",
+    "steps": [
+      "Ensure the plant is getting enough light",
+      "Fertilize during active seasons",
+      "Repot if rootbound",
+      "Avoid overwatering during dormant months"
+    ],
+    "tips": [
+      "Growth slows in winter – be patient",
+      "Use balanced fertilizer in spring/summer"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "9",
+    "title": "Drooping Leaves After Watering",
+    "duration": "3 min read",
+    "difficulty": "Beginner",
+    "rating": 4.3,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Surprisingly, drooping can happen even after watering.",
+    "steps": [
+      "Check for overwatering symptoms",
+      "Ensure pot drains properly",
+      "Lift plant out and inspect roots"
+    ],
+    "tips": [
+      "Don't water on a schedule — check the soil first",
+      "Terracotta pots dry faster than plastic"
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "10",
+    "title": "Leaves Curling Inward",
+    "duration": "4 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": false,
+    "description": "Curling leaves are often a sign of heat stress or pests.",
+    "steps": [
+      "Move plant out of direct hot sunlight",
+      "Increase humidity around the plant",
+      "Check for thrips or aphids"
+    ],
+    "tips": [
+      "Don't mist in direct sunlight",
+      "Neem oil is great for pest prevention"
+    ],
+    "icon": "Sun"
   }
 ]

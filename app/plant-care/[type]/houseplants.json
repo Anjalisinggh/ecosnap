@@ -1,0 +1,355 @@
+[
+  {
+    "id": "1",
+    "title": "Snake Plant Survival",
+    "duration": "5 mins",
+    "difficulty": "Beginner",
+    "rating": 4.8,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Learn to keep your snake plant thriving in any indoor setting.",
+    "steps": [
+      "Place in indirect light.",
+      "Water only when soil is completely dry.",
+      "Avoid overwatering to prevent root rot."
+    ],
+    "tips": [
+      "Wipe leaves monthly to keep them dust-free.",
+      "Repot every 2 years with well-draining soil."
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "2",
+    "title": "Fiddle Leaf Fig Focus",
+    "duration": "7 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Master the needs of the stylish fiddle leaf fig.",
+    "steps": [
+      "Keep in bright, filtered light.",
+      "Water weekly and keep humidity moderate.",
+      "Rotate monthly for even growth."
+    ],
+    "tips": [
+      "Use a moss pole for support.",
+      "Fertilize during growing season (spring to summer)."
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "3",
+    "title": "Peace Lily TLC",
+    "duration": "6 mins",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": false,
+    "description": "Care for your peace lily and encourage beautiful blooms.",
+    "steps": [
+      "Place in indirect sunlight.",
+      "Keep soil moist but not soggy.",
+      "Trim spent flowers regularly."
+    ],
+    "tips": [
+      "Wipe leaves to maintain shine.",
+      "Mist during dry months to increase humidity."
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "4",
+    "title": "Monstera Magic",
+    "duration": "8 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.9,
+    "isCompleted": true,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Unleash the growth of your monstera deliciosa indoors.",
+    "steps": [
+      "Use peat-based soil and allow to dry slightly between waterings.",
+      "Give filtered sunlight and room to climb.",
+      "Wipe leaves regularly."
+    ],
+    "tips": [
+      "Support aerial roots with a moss pole.",
+      "Fertilize every 2 weeks in spring and summer."
+    ],
+    "icon": "Heart"
+  },
+  {
+    "id": "5",
+    "title": "Spider Plant Secrets",
+    "duration": "4 mins",
+    "difficulty": "Beginner",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Grow this classic houseplant effortlessly.",
+    "steps": [
+      "Place in bright to medium indirect light.",
+      "Water thoroughly when top inch is dry.",
+      "Trim brown tips."
+    ],
+    "tips": [
+      "Propagate spiderettes in water.",
+      "Tolerant of a variety of conditions."
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "6",
+    "title": "ZZ Plant Zen",
+    "duration": "3 mins",
+    "difficulty": "Beginner",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Low maintenance beauty for any corner.",
+    "steps": [
+      "Use a well-draining potting mix.",
+      "Water every 2-3 weeks.",
+      "Place in low to bright indirect light."
+    ],
+    "tips": [
+      "Wipe leaves to enhance shine.",
+      "Toxic to pets—place safely."
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "7",
+    "title": "Aloe Vera Aid",
+    "duration": "4 mins",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Care for your aloe plant and harvest its healing gel.",
+    "steps": [
+      "Place in full sun.",
+      "Use cactus soil mix.",
+      "Water when top inch is dry."
+    ],
+    "tips": [
+      "Harvest gel from mature leaves only.",
+      "Avoid overwatering—it’s a succulent!"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "8",
+    "title": "Rubber Plant Routine",
+    "duration": "6 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Shiny, bold foliage with minimal effort.",
+    "steps": [
+      "Bright indirect light is best.",
+      "Keep soil moist but not soggy.",
+      "Wipe leaves weekly."
+    ],
+    "tips": [
+      "Rotate to promote even growth.",
+      "Trim for shape and health."
+    ],
+    "icon": "Heart"
+  },
+
+  {
+    "id": "9",
+    "title": "Pothos Power",
+    "duration": "5 mins",
+    "difficulty": "Beginner",
+    "rating": 4.8,
+    "isCompleted": true,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "This vine is perfect for beginners and thrives on neglect.",
+    "steps": [
+      "Place in bright, indirect light.",
+      "Water when soil feels dry.",
+      "Trim to manage growth."
+    ],
+    "tips": [
+      "Propagate easily in water.",
+      "Good air purifier for indoor spaces."
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "10",
+    "title": "Calathea Charm",
+    "duration": "6 mins",
+    "difficulty": "Advanced",
+    "rating": 4.3,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Gorgeous foliage that loves humidity and care.",
+    "steps": [
+      "Avoid direct sun.",
+      "Keep soil moist with filtered water.",
+      "Boost humidity with a humidifier."
+    ],
+    "tips": [
+      "Leaves close at night—it’s normal!",
+      "Avoid tap water to prevent browning."
+    ],
+    "icon": "Thermometer"
+  },
+
+
+  {
+    "id": "11",
+    "title": "Jade Plant Joy",
+    "duration": "4 mins",
+    "difficulty": "Beginner",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Perfect for sunny windowsills and beginners.",
+    "steps": ["Let soil dry out fully between waterings.", "Bright sunlight preferred."],
+    "tips": ["Don’t overwater!", "Use a shallow pot."],
+    "icon": "Sun"
+  },
+  {
+    "id": "12",
+    "title": "Parlor Palm Prep",
+    "duration": "5 mins",
+    "difficulty": "Beginner",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "A tropical plant that does well in indirect light.",
+    "steps": ["Water once soil feels dry.", "Mist occasionally to raise humidity."],
+    "tips": ["Wipe leaves gently.", "Avoid direct sun."],
+    "icon": "Droplets"
+  },
+  {
+    "id": "13",
+    "title": "Chinese Evergreen Ease",
+    "duration": "4 mins",
+    "difficulty": "Beginner",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "An adaptable plant that tolerates low light.",
+    "steps": ["Keep soil lightly moist.", "Tolerates low to medium light."],
+    "tips": ["Great for office desks.", "Dust leaves often."],
+    "icon": "Leaf"
+  },
+  {
+    "id": "14",
+    "title": "Croton Color Guide",
+    "duration": "6 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.3,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Vibrant leaves that love humidity and warmth.",
+    "steps": ["Bright light keeps color vibrant.", "Mist frequently."],
+    "tips": ["Use room-temp water.", "Don’t move it around often."],
+    "icon": "Sun"
+  },
+  {
+    "id": "15",
+    "title": "Dieffenbachia Basics",
+    "duration": "5 mins",
+    "difficulty": "Beginner",
+    "rating": 4.2,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Big-leaf beauty that’s easy to grow.",
+    "steps": ["Bright indirect light preferred.", "Water when top inch is dry."],
+    "tips": ["Toxic to pets—handle carefully.", "Avoid cold drafts."],
+    "icon": "Heart"
+  },
+  {
+    "id": "16",
+    "title": "Boston Fern Tips",
+    "duration": "7 mins",
+    "difficulty": "Advanced",
+    "rating": 4.1,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Humidity-loving fern with lush foliage.",
+    "steps": ["Keep soil evenly moist.", "Boost humidity with misting."],
+    "tips": ["Fertilize monthly.", "Best in bathrooms or terrariums."],
+    "icon": "Droplets"
+  },
+  {
+    "id": "17",
+    "title": "Lucky Bamboo Luck",
+    "duration": "3 mins",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": true,
+    "isBookmarked": true,
+    "hasVideo": false,
+    "description": "Symbol of prosperity—easy to care for.",
+    "steps": ["Keep roots in water.", "Avoid direct sunlight."],
+    "tips": ["Change water weekly.", "Use distilled or filtered water."],
+    "icon": "Leaf"
+  },
+  {
+    "id": "18",
+    "title": "Dracaena Delight",
+    "duration": "5 mins",
+    "difficulty": "Beginner",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Upright growth and easy-going care.",
+    "steps": ["Indirect light preferred.", "Water when dry 2 inches down."],
+    "tips": ["Prune to shape.", "Tolerates neglect."],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "19",
+    "title": "Oxalis Triangle",
+    "duration": "6 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Purple shamrock that opens and closes with light.",
+    "steps": ["Bright indirect light ideal.", "Let soil dry slightly before watering."],
+    "tips": ["Goes dormant in winter.", "Water sparingly during dormancy."],
+    "icon": "Heart"
+  },
+  {
+    "id": "20",
+    "title": "Bamboo Palm Boost",
+    "duration": "5 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Adds tropical flair to indoor spaces.",
+    "steps": ["Keep in filtered light.", "Water when topsoil feels dry."],
+    "tips": ["Avoid soggy soil.", "Wipe leaves monthly."],
+    "icon": "Leaf"
+  }
+]

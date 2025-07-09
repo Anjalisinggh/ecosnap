@@ -1,0 +1,113 @@
+[
+  {
+    "id": "succ1",
+    "title": "Watering Succulents Right",
+    "duration": "10 mins",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Master the soak-and-dry method for your succulents.",
+    "steps": [
+      "Water the soil thoroughly until water drains out.",
+      "Wait until the soil is completely dry before watering again.",
+      "Avoid misting the leaves; focus on the roots."
+    ],
+    "tips": [
+      "Use a moisture meter to avoid overwatering.",
+      "Water less during winter months.",
+      "Always use pots with drainage holes."
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "succ2",
+    "title": "Best Soil Mix for Succulents",
+    "duration": "15 mins",
+    "difficulty": "Beginner",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Create a well-draining soil mix to keep roots healthy.",
+    "steps": [
+      "Combine cactus mix with perlite or coarse sand.",
+      "Avoid regular potting soil—it retains too much moisture.",
+      "Test your mix by watering and checking for drainage speed."
+    ],
+    "tips": [
+      "You can add crushed granite or pumice for better drainage.",
+      "Store extra mix in a dry container for reuse.",
+      "Label your mix proportions for consistency."
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "succ3",
+    "title": "Sunlight Needs for Succulents",
+    "duration": "10 mins",
+    "difficulty": "Beginner",
+    "rating": 4.8,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Learn how much light your succulents crave.",
+    "steps": [
+      "Place them near a bright, south-facing window.",
+      "Give at least 6 hours of sunlight a day.",
+      "Rotate the pot weekly to ensure even growth."
+    ],
+    "tips": [
+      "If indoors, consider a grow light.",
+      "Watch for stretching—it means your plant needs more light.",
+      "Avoid sudden exposure to direct sun—acclimate gradually."
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "succ4",
+    "title": "Winter Care for Succulents",
+    "duration": "12 mins",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Keep your succulents cozy and safe in the cold.",
+    "steps": [
+      "Reduce watering during winter dormancy.",
+      "Move them away from cold drafts or freezing windows.",
+      "Use grow lights if natural sunlight decreases."
+    ],
+    "tips": [
+      "Avoid fertilizing during winter.",
+      "Group succulents to increase ambient warmth.",
+      "Ensure pots don’t sit in water—risk of rot increases."
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "succ5",
+    "title": "How to Propagate Succulents",
+    "duration": "25 mins",
+    "difficulty": "Advanced",
+    "rating": 4.9,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Grow new succulents from leaves and cuttings!",
+    "steps": [
+      "Twist off healthy leaves or cut stems with a clean knife.",
+      "Let cuttings dry for a few days until calloused.",
+      "Place on well-draining soil and mist lightly."
+    ],
+    "tips": [
+      "Be patient—roots may take 1–2 weeks to sprout.",
+      "Keep in indirect sunlight during propagation.",
+      "Don’t water heavily until roots are established."
+    ],
+    "icon": "Heart"
+  }
+ 
+]

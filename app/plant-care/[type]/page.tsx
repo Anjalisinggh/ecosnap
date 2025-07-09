@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import {
@@ -11,7 +11,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import plantCareData from "../plant.json"
 import healthCareData from "../health.json"
-
+import herb from "../herbs.json"
+import houseplants from "./houseplants.json"
+import troubleshooting from "./troubleshooting.json"
+import succulents from "./succulents.json"
 interface Guide {
   id: string
   title: string
@@ -54,7 +57,20 @@ export default function PlantCareGuidesDetail() {
     } else if (type === "health") {
       setGuides(enrichGuides(healthCareData))
       setCategoryTitle("Plant Health Care")
+    } else if (type === "herbs") {  
+      setGuides(enrichGuides(herb))
+      setCategoryTitle("Herb Gardening")
+    } else if (type === "houseplants") {
+      setGuides(enrichGuides(houseplants))
+      setCategoryTitle("Houseplant Care")
+    } else if (type === "succulents") { 
+      setGuides(enrichGuides(succulents))
+      setCategoryTitle("Succulent Care")
+    } else if (type === "troubleshooting") {
+      setGuides(enrichGuides( healthCareData))
+      setCategoryTitle("Troubleshooting Plant Issues")
     }
+   
   }, [type])
 
   const toggleBookmark = (id: string) => {
@@ -237,14 +253,16 @@ export default function PlantCareGuidesDetail() {
       <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-full bg-transparent"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+         <Link href="/plant-care">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+          </Link>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-white" />

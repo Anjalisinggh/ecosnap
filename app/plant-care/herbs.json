@@ -1,0 +1,347 @@
+[
+  {
+    "id": "h1",
+    "title": "Growing Basil Indoors",
+    "duration": "4 min read",
+    "difficulty": "Beginner",
+    "rating": 4.8,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Learn how to grow fresh basil in pots on your kitchen windowsill.",
+    "steps": [
+      "Choose a sunny windowsill with 6+ hours of light",
+      "Use well-draining potting mix",
+      "Keep soil slightly moist but not soggy",
+      "Pinch back top leaves regularly to encourage bushy growth"
+    ],
+    "tips": [
+      "Avoid letting basil flower—pinch off buds",
+      "Harvest leaves from the top down",
+      "Basil thrives in warmth, avoid cold drafts"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "h2",
+    "title": "Caring for Mint",
+    "duration": "5 min read",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Keep your mint plant healthy and prevent it from taking over your garden.",
+    "steps": [
+      "Plant in containers to control spread",
+      "Provide partial shade and moist soil",
+      "Trim frequently to encourage new growth",
+      "Repot yearly to prevent overcrowding"
+    ],
+    "tips": [
+      "Great for tea and garnishes",
+      "Root division helps rejuvenate mint",
+      "Mint loves humidity"
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "h3",
+    "title": "Thyme for Beginners",
+    "duration": "3 min read",
+    "difficulty": "Beginner",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Learn to grow and care for thyme in containers or garden beds.",
+    "steps": [
+      "Choose full sun and well-draining soil",
+      "Water only when soil is dry",
+      "Trim back after blooming",
+      "Harvest sprigs before flowers appear"
+    ],
+    "tips": [
+      "Thyme is drought-tolerant",
+      "Use in soups and roasted veggies",
+      "Avoid overwatering"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "h4",
+    "title": "Parsley Growth Guide",
+    "duration": "4 min read",
+    "difficulty": "Beginner",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": false,
+    "description": "Grow lush parsley for your kitchen easily with these tips.",
+    "steps": [
+      "Sow seeds in rich, moist soil",
+      "Place in partial sun or filtered light",
+      "Water consistently",
+      "Harvest outer leaves first"
+    ],
+    "tips": [
+      "Great for digestion",
+      "Flat-leaf parsley has stronger flavor",
+      "Snip regularly to prevent bolting"
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "h5",
+    "title": "Cilantro Success",
+    "duration": "4 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Get the most out of cilantro before it bolts in summer heat.",
+    "steps": [
+      "Plant in cool weather",
+      "Keep soil moist but not soggy",
+      "Harvest leaves before flowering",
+      "Resow every 2-3 weeks"
+    ],
+    "tips": [
+      "Bolts quickly in heat",
+      "Coriander seeds come from the same plant",
+      "Best grown in early spring or fall"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "h6",
+    "title": "Oregano Maintenance",
+    "duration": "3 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Tips to keep your oregano bushy and aromatic.",
+    "steps": [
+      "Plant in full sun",
+      "Use well-drained soil",
+      "Prune regularly to encourage new shoots",
+      "Harvest leaves before flowering"
+    ],
+    "tips": [
+      "Intensifies in flavor as it dries",
+      "Repels some garden pests",
+      "Perfect for Italian dishes"
+    ],
+    "icon": "Heart"
+  },
+  {
+    "id": "h7",
+    "title": "Chives Made Easy",
+    "duration": "3 min read",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Grow chives to add onion-like flavor to your dishes.",
+    "steps": [
+      "Plant in full sun with moist soil",
+      "Divide clumps every 2-3 years",
+      "Cut near soil level when harvesting",
+      "Remove flower heads to prevent seeding"
+    ],
+    "tips": [
+      "Great garnish for eggs and soups",
+      "Tolerates cool climates",
+      "Edible purple flowers"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "h8",
+    "title": "Sage Planting Guide",
+    "duration": "4 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Learn how to grow sage with this easy-care routine.",
+    "steps": [
+      "Use sandy, well-drained soil",
+      "Give 6+ hours of direct sun",
+      "Allow soil to dry between watering",
+      "Trim in spring to promote fresh growth"
+    ],
+    "tips": [
+      "Avoid wet roots—can rot easily",
+      "Pairs well with poultry dishes",
+      "Use fresh or dried"
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "h9",
+    "title": "Lavender Love",
+    "duration": "5 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.9,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Get tips on growing fragrant lavender plants for home and tea.",
+    "steps": [
+      "Plant in sandy soil with good drainage",
+      "Place in full sun",
+      "Prune after bloom to shape",
+      "Avoid frequent watering"
+    ],
+    "tips": [
+      "Attracts pollinators",
+      "Dry flowers for calming tea",
+      "Too much water causes root rot"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "h10",
+    "title": "Dill Growth Guide",
+    "duration": "3 min read",
+    "difficulty": "Beginner",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Grow dill for pickling, soups, and seasoning.",
+    "steps": [
+      "Sow seeds directly in soil",
+      "Needs full sun and consistent moisture",
+      "Thin plants to avoid overcrowding",
+      "Harvest before flowers bloom"
+    ],
+    "tips": [
+      "Use fresh or dried leaves",
+      "Great companion plant for cucumbers",
+      "Bolts quickly in hot weather"
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "h11",
+    "title": "Tarragon Tips",
+    "duration": "4 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.3,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Grow French tarragon for a licorice-like flavor in dishes.",
+    "steps": [
+      "Prefers full sun and loose soil",
+      "Water when top inch is dry",
+      "Prune regularly to promote bushiness",
+      "Divide roots every few years"
+    ],
+    "tips": [
+      "Doesn’t grow from seed—use cuttings",
+      "Use in sauces and poultry",
+      "Avoid soggy soil"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "h12",
+    "title": "Lemongrass Propagation",
+    "duration": "4 min read",
+    "difficulty": "Beginner",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Grow lemongrass from stalks for teas and Asian cuisine.",
+    "steps": [
+      "Root store-bought stalks in water",
+      "Plant in large pot with moist soil",
+      "Provide full sun",
+      "Harvest by cutting at base"
+    ],
+    "tips": [
+      "Needs heat to thrive",
+      "Great mosquito repellent",
+      "Use both stalk and leaves"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "h13",
+    "title": "Bay Leaf Tree Basics",
+    "duration": "5 min read",
+    "difficulty": "Advanced",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Grow a bay laurel tree for culinary use year-round.",
+    "steps": [
+      "Needs bright light and good drainage",
+      "Avoid overwatering",
+      "Prune to maintain shape",
+      "Harvest mature leaves"
+    ],
+    "tips": [
+      "Slow growing—be patient",
+      "Overwinter indoors in cold climates",
+      "Use dried leaves in soups and stews"
+    ],
+    "icon": "Heart"
+  },
+  {
+    "id": "h14",
+    "title": "Fenugreek Microgreens",
+    "duration": "2 min read",
+    "difficulty": "Beginner",
+    "rating": 4.2,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Quickly grow fenugreek microgreens at home.",
+    "steps": [
+      "Soak seeds overnight",
+      "Spread in a tray with moist paper",
+      "Mist daily and keep covered",
+      "Harvest in 5-7 days"
+    ],
+    "tips": [
+      "Nutritious and great in salads",
+      "Use a shallow container",
+      "Good source of iron"
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "h15",
+    "title": "Growing Stevia",
+    "duration": "3 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Grow your own calorie-free sweetener with stevia.",
+    "steps": [
+      "Needs warm, sunny spot",
+      "Avoid soggy roots",
+      "Pinch tips for bushy growth",
+      "Dry leaves for use"
+    ],
+    "tips": [
+      "Use dried leaves in tea or baking",
+      "Protect from frost",
+      "Great sugar alternative"
+    ],
+    "icon": "Droplets"
+  }
+]
