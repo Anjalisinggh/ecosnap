@@ -106,60 +106,67 @@ export default function AIFeaturesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 sm:p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Link href="/">
+        <div className="flex flex-col xs:flex-row xs:items-center gap-3 sm:gap-4 mb-6">
+          <Link href="/" className="w-fit">
             <Button
               variant="outline"
               size="sm"
               className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to EcoSnap
+              <span className="whitespace-nowrap">Back to EcoSnap</span>
             </Button>
           </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               EcoSnap AI Features
             </h1>
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-500" />
           </div>
-          <Sparkles className="w-6 h-6 text-emerald-500" />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           {/* AI Features List */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card className="backdrop-blur-sm bg-white/80 border-emerald-100 shadow-xl">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            <Card className="backdrop-blur-sm bg-white/80 border-emerald-100 shadow-sm sm:shadow-xl">
               <CardHeader>
-                <CardTitle>Available AI Features</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">Available AI Features</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {aiFeatures.map((feature) => {
                     const IconComponent = feature.icon
                     return (
                       <div
                         key={feature.id}
-                        className="flex items-start gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow"
+                        className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg hover:shadow-md transition-shadow"
                       >
-                        <div className={`p-3 rounded-lg ${feature.color}`}>
-                          <IconComponent className="w-6 h-6" />
+                        <div className={`p-2 sm:p-3 rounded-lg ${feature.color} flex-shrink-0`}>
+                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className="font-semibold text-gray-800">{feature.title}</h3>
-                            <Badge className={getStatusColor(feature.status)}>{feature.status}</Badge>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col xs:flex-row xs:items-center gap-1 xs:gap-2 mb-1 sm:mb-2">
+                            <h3 className="font-semibold text-gray-800 text-sm sm:text-base truncate">
+                              {feature.title}
+                            </h3>
+                            <Badge className={`text-xs ${getStatusColor(feature.status)}`}>
+                              {feature.status}
+                            </Badge>
                           </div>
-                          <p className="text-sm text-gray-600 mb-3">{feature.description}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 line-clamp-2">
+                            {feature.description}
+                          </p>
                           <Button
                             size="sm"
                             variant={feature.status === "Active" ? "default" : "outline"}
                             disabled={feature.status === "Coming Soon"}
+                            className="w-full xs:w-auto"
                           >
                             {feature.status === "Active"
                               ? "Use Feature"
@@ -176,34 +183,42 @@ export default function AIFeaturesPage() {
             </Card>
 
             {/* AI Insights */}
-            <Card>
+            <Card className="backdrop-blur-sm bg-white/80 border-emerald-100 shadow-sm sm:shadow-xl">
               <CardHeader>
-                <CardTitle>AI Insights Dashboard</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">AI Insights Dashboard</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-green-50 rounded-lg">
-                    <h4 className="font-semibold text-green-800 mb-2">Plants Identified This Week</h4>
-                    <div className="text-2xl font-bold text-green-600">247</div>
-                    <p className="text-sm text-green-700">+23% from last week</p>
+                <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                  <div className="p-3 sm:p-4 bg-green-50 rounded-lg">
+                    <h4 className="font-semibold text-green-800 text-xs sm:text-sm mb-1 sm:mb-2">
+                      Plants Identified
+                    </h4>
+                    <div className="text-xl sm:text-2xl font-bold text-green-600">247</div>
+                    <p className="text-xs sm:text-sm text-green-700">+23% from last week</p>
                   </div>
 
-                  <div className="p-4 bg-blue-50 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-2">Care Recommendations Given</h4>
-                    <div className="text-2xl font-bold text-blue-600">1,432</div>
-                    <p className="text-sm text-blue-700">Across 89 plant species</p>
+                  <div className="p-3 sm:p-4 bg-blue-50 rounded-lg">
+                    <h4 className="font-semibold text-blue-800 text-xs sm:text-sm mb-1 sm:mb-2">
+                      Care Recommendations
+                    </h4>
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600">1,432</div>
+                    <p className="text-xs sm:text-sm text-blue-700">Across 89 species</p>
                   </div>
 
-                  <div className="p-4 bg-purple-50 rounded-lg">
-                    <h4 className="font-semibold text-purple-800 mb-2">Health Issues Detected</h4>
-                    <div className="text-2xl font-bold text-purple-600">56</div>
-                    <p className="text-sm text-purple-700">Early detection rate: 94%</p>
+                  <div className="p-3 sm:p-4 bg-purple-50 rounded-lg">
+                    <h4 className="font-semibold text-purple-800 text-xs sm:text-sm mb-1 sm:mb-2">
+                      Health Issues
+                    </h4>
+                    <div className="text-xl sm:text-2xl font-bold text-purple-600">56</div>
+                    <p className="text-xs sm:text-sm text-purple-700">94% early detection</p>
                   </div>
 
-                  <div className="p-4 bg-orange-50 rounded-lg">
-                    <h4 className="font-semibold text-orange-800 mb-2">Success Rate</h4>
-                    <div className="text-2xl font-bold text-orange-600">96.2%</div>
-                    <p className="text-sm text-orange-700">Plant identification accuracy</p>
+                  <div className="p-3 sm:p-4 bg-orange-50 rounded-lg">
+                    <h4 className="font-semibold text-orange-800 text-xs sm:text-sm mb-1 sm:mb-2">
+                      Success Rate
+                    </h4>
+                    <div className="text-xl sm:text-2xl font-bold text-orange-600">96.2%</div>
+                    <p className="text-xs sm:text-sm text-orange-700">Identification accuracy</p>
                   </div>
                 </div>
               </CardContent>
@@ -211,20 +226,20 @@ export default function AIFeaturesPage() {
           </div>
 
           {/* AI Chat Assistant */}
-          <div className="space-y-6">
-            <Card className="h-96 backdrop-blur-sm bg-white/80 border-emerald-100 shadow-xl">
+          <div className="space-y-4 sm:space-y-6">
+            <Card className="h-[400px] sm:h-[500px] lg:h-[600px] backdrop-blur-sm bg-white/80 border-emerald-100 shadow-sm sm:shadow-xl">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="w-5 h-5 text-emerald-600" />
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
                   EcoSnap AI Assistant
                 </CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col h-full">
-                <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+              <CardContent className="flex flex-col h-[calc(100%-57px)]">
+                <div className="flex-1 overflow-y-auto space-y-2 sm:space-y-3 mb-3 sm:mb-4 pr-2">
                   {chatHistory.map((message, index) => (
                     <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
                       <div
-                        className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                        className={`max-w-[85%] p-2 sm:p-3 rounded-lg text-xs sm:text-sm ${
                           message.type === "user"
                             ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white"
                             : "bg-emerald-50 text-gray-800 border border-emerald-100"
@@ -241,7 +256,7 @@ export default function AIFeaturesPage() {
                     placeholder="Ask me anything about plant care..."
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
-                    className="min-h-[60px]"
+                    className="min-h-[60px] text-xs sm:text-sm"
                     onKeyPress={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault()
@@ -261,25 +276,25 @@ export default function AIFeaturesPage() {
             </Card>
 
             {/* Quick AI Actions */}
-            <Card>
+            <Card className="backdrop-blur-sm bg-white/80 border-emerald-100 shadow-sm sm:shadow-xl">
               <CardHeader>
-                <CardTitle>Quick AI Actions</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">Quick AI Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button variant="outline" className="w-full justify-start bg-transparent">
-                  <Camera className="w-4 h-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start bg-transparent text-xs sm:text-sm">
+                  <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />
                   Identify Plant from Photo
                 </Button>
-                <Button variant="outline" className="w-full justify-start bg-transparent">
-                  <TrendingUp className="w-4 h-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start bg-transparent text-xs sm:text-sm">
+                  <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />
                   Analyze Plant Health
                 </Button>
-                <Button variant="outline" className="w-full justify-start bg-transparent">
-                  <Calendar className="w-4 h-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start bg-transparent text-xs sm:text-sm">
+                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />
                   Generate Care Schedule
                 </Button>
-                <Button variant="outline" className="w-full justify-start bg-transparent">
-                  <Sparkles className="w-4 h-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start bg-transparent text-xs sm:text-sm">
+                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />
                   Get Smart Recommendations
                 </Button>
               </CardContent>

@@ -11,7 +11,12 @@ body {
     text-wrap: balance;
   }
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
 
+.font-logo {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.05em;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
