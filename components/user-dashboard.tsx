@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { History, User, Calendar, TrendingUp, Leaf } from "lucide-react"
+import { Auth } from "firebase/auth"
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth"
+import { getAuth } from "firebase/auth"
 
 interface AnalysisHistory {
   id: string
@@ -23,7 +26,8 @@ interface UserStats {
 }
 
 export default function UserDashboard() {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+  const auth = getAuth();
+  const [user, setUser] = useState<{ email: string } | null>(null)
   const [history, setHistory] = useState<AnalysisHistory[]>([])
   const [stats, setStats] = useState<UserStats>({
     totalAnalyses: 0,
@@ -32,23 +36,28 @@ export default function UserDashboard() {
     lastAnalysis: "",
   })
   const [isSignedIn, setIsSignedIn] = useState(false)
-  const [signInForm, setSignInForm] = useState({ name: "", email: "" })
+  const [signInForm, setSignInForm] = useState({ email: "", password: "" })
+  const [error, setError] = useState("")
 
   useEffect(() => {
-    // Load user data from localStorage (in production, use proper authentication)
-    const savedUser = localStorage.getItem("ecosnap-user")
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({ email: firebaseUser.email || "" })
+        setIsSignedIn(true)
+      } else {
+        setUser(null)
+        setIsSignedIn(false)
+      }
+    })
+
     const savedHistory = localStorage.getItem("ecosnap-history")
-
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-      setIsSignedIn(true)
-    }
-
     if (savedHistory) {
       const historyData = JSON.parse(savedHistory)
       setHistory(historyData)
       calculateStats(historyData)
     }
+
+    return () => unsubscribe()
   }, [])
 
   const calculateStats = (historyData: AnalysisHistory[]) => {
@@ -65,19 +74,32 @@ export default function UserDashboard() {
     })
   }
 
-  const handleSignIn = () => {
-    if (signInForm.name && signInForm.email) {
-      const userData = { name: signInForm.name, email: signInForm.email }
-      setUser(userData)
-      setIsSignedIn(true)
-      localStorage.setItem("ecosnap-user", JSON.stringify(userData))
+  const handleSignIn = async () => {
+    const { email, password } = signInForm
+    if (!email || !password) {
+      setError("Please enter both email and password")
+      return
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      setError("")
+    } catch (err: any) {
+      if (err.code === "auth/user-not-found") {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password)
+          setError("")
+        } catch (createError: any) {
+          setError(createError.message)
+        }
+      } else {
+        setError(err.message)
+      }
     }
   }
 
-  const handleSignOut = () => {
-    setUser(null)
-    setIsSignedIn(false)
-    localStorage.removeItem("ecosnap-user")
+  const handleSignOut = async () => {
+    await signOut(auth)
     localStorage.removeItem("ecosnap-history")
     setHistory([])
     setStats({ totalAnalyses: 0, healthyPlants: 0, diseasesDetected: 0, lastAnalysis: "" })
@@ -85,7 +107,7 @@ export default function UserDashboard() {
 
   const addToHistory = (analysis: Omit<AnalysisHistory, "id">) => {
     const newAnalysis = { ...analysis, id: Date.now().toString() }
-    const updatedHistory = [newAnalysis, ...history].slice(0, 50) // Keep last 50 analyses
+    const updatedHistory = [newAnalysis, ...history].slice(0, 50)
     setHistory(updatedHistory)
     localStorage.setItem("ecosnap-history", JSON.stringify(updatedHistory))
     calculateStats(updatedHistory)
@@ -102,14 +124,6 @@ export default function UserDashboard() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <Input
-              value={signInForm.name}
-              onChange={(e) => setSignInForm({ ...signInForm, name: e.target.value })}
-              placeholder="Enter your name"
-            />
-          </div>
-          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <Input
               type="email"
@@ -118,10 +132,19 @@ export default function UserDashboard() {
               placeholder="Enter your email"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <Input
+              type="password"
+              value={signInForm.password}
+              onChange={(e) => setSignInForm({ ...signInForm, password: e.target.value })}
+              placeholder="Enter your password"
+            />
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button onClick={handleSignIn} className="w-full bg-green-600 hover:bg-green-700">
-            Sign In
+            Sign In / Sign Up
           </Button>
-         
         </CardContent>
       </Card>
     )
@@ -129,13 +152,12 @@ export default function UserDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* User Info */}
       <Card className="bg-gradient-to-r from-green-100 to-emerald-100 border-green-300">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-green-800">
               <User className="w-6 h-6" />
-              Welcome back, {user?.name}!
+              Welcome back!
             </CardTitle>
             <Button variant="outline" onClick={handleSignOut} size="sm">
               Sign Out
@@ -226,8 +248,8 @@ export default function UserDashboard() {
                       analysis.severity === "Low"
                         ? "bg-green-100 text-green-800"
                         : analysis.severity === "Medium"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-red-100 text-red-800"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
                     }`}
                   >
                     {analysis.severity}
