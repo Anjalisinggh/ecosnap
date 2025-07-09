@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import Link from "next/link"
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -95,21 +95,22 @@ export default function PlantDetection() {
       <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={resetAnalysis}
-            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-full px-4 bg-transparent"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+          <Link href="/">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to EcoSnap
+              </Button>
+            </Link>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
-              Plant Detection
+            Eco Snap 
             </h1>
           </div>
         </div>

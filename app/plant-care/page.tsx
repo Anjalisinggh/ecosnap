@@ -5,6 +5,7 @@ import { ArrowLeft, Search, BookOpen, Play, Clock, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import PlantCareGuidesDetail from "../plant-care-guides-detail/page"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
@@ -12,6 +13,7 @@ import Image from "next/image"
 
 export default function PlantCarePage() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
   const categories = [
     { id: "basics", name: "Plant Care Basics", count: 12 },
@@ -66,14 +68,12 @@ export default function PlantCarePage() {
 
   const videos = [
     {
-  id: 1,
-  title: "Repotting Your Plants: A Visual Guide",
-  duration: "15:30",
-  views: "125K",
-  video: "/repotting.jpg", // separate key for video
-  thumbnail: "/thumbnails/repotting.jpg", // fallback
-}
-,
+      id: 1,
+      title: "Repotting Your Plants: A Visual Guide",
+      duration: "15:30",
+      views: "125K",
+      thumbnail: "/thumbnails/repotting.jpg",
+    },
     {
       id: 2,
       title: "Identifying Common Plant Pests",
@@ -93,7 +93,7 @@ export default function PlantCarePage() {
   const filteredGuides = guides.filter(
     (guide) =>
       guide.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      guide.category.toLowerCase().includes(searchQuery.toLowerCase()),
+      guide.category.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return (
@@ -224,17 +224,35 @@ export default function PlantCarePage() {
           </TabsContent>
 
           <TabsContent value="categories" className="space-y-6">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {categories.map((category) => (
-                <Card key={category.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <BookOpen className="w-8 h-8 text-green-600 mx-auto mb-3" />
-                    <h3 className="font-semibold text-gray-800 mb-2">{category.name}</h3>
-                    <p className="text-sm text-gray-600">{category.count} guides available</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {!selectedCategory ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {categories.map((category) => (
+                  <Link key={category.id} href={`/plant-care/${category.id}`}>
+                    <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                      <CardContent className="p-6 text-center">
+                        <BookOpen className="w-8 h-8 text-green-600 mx-auto mb-3" />
+                        <h3 className="font-semibold text-gray-800 mb-2">{category.name}</h3>
+                        <p className="text-sm text-gray-600">{category.count} guides available</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <Button
+                  onClick={() => setSelectedCategory(null)}
+                  className="mb-4 border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-full bg-transparent"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Categories
+                </Button>
+                <PlantCareGuidesDetail
+                //   category={selectedCategory}
+                //   guides={guides.filter((g) => g.category.toLowerCase() === selectedCategory.toLowerCase())}
+                />
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

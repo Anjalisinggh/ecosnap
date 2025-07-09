@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useEffect } from "react"
-import { onCLS, onFID, onFCP, onLCP, onTTFB } from "web-vitals"
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from "web-vitals"
 
 // Web Vitals tracking
 function sendToAnalytics(metric: any) {
@@ -77,7 +77,7 @@ export function MonitoringProvider({ children }: { children: React.ReactNode }) 
     // Initialize Web Vitals tracking with correct syntax
     try {
       onCLS(sendToAnalytics)
-      onFID(sendToAnalytics)
+      onINP(sendToAnalytics)
       onFCP(sendToAnalytics)
       onLCP(sendToAnalytics)
       onTTFB(sendToAnalytics)

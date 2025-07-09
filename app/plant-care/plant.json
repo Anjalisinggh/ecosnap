@@ -1,0 +1,146 @@
+[
+  {
+    "id": "1",
+    "title": "Understanding Your Plant's Needs",
+    "duration": "5 min read",
+    "difficulty": "Beginner",
+    "rating": 4.9,
+    "isCompleted": true,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Learn the fundamental needs every plant has: light, water, nutrients, and proper environment.",
+    "steps": [
+      "Identify your plant's light requirements (low, medium, bright indirect, or direct sunlight)",
+      "Check soil moisture by inserting your finger 1-2 inches deep",
+      "Look for signs of healthy growth: new leaves, strong stems, vibrant colors",
+      "Monitor temperature and humidity levels in your plant's location",
+      "Establish a regular care routine based on your plant's specific needs"
+    ],
+    "tips": [
+      "Most houseplants prefer bright, indirect light",
+      "Overwatering is more harmful than underwatering",
+      "Group plants with similar needs together"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "2",
+    "title": "Proper Watering Techniques",
+    "duration": "7 min read",
+    "difficulty": "Beginner",
+    "rating": 4.8,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Master the art of watering - when, how much, and what type of water to use.",
+    "steps": [
+      "Check soil moisture before watering using the finger test",
+      "Water thoroughly until water drains from the bottom holes",
+      "Use room temperature water to avoid shocking the roots",
+      "Water in the morning to allow plants to absorb moisture during active hours",
+      "Empty drainage trays after 30 minutes to prevent root rot"
+    ],
+    "tips": [
+      "Yellow leaves often indicate overwatering",
+      "Use filtered or distilled water for sensitive plants",
+      "Bottom watering works great for plants with fuzzy leaves"
+    ],
+    "icon": "Droplets"
+  },
+  {
+    "id": "3",
+    "title": "Light Requirements Guide",
+    "duration": "6 min read",
+    "difficulty": "Beginner",
+    "rating": 4.7,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": false,
+    "description": "Understand different light conditions and how to provide the right amount for your plants.",
+    "steps": [
+      "Identify the natural light in your space throughout the day",
+      "Learn the difference between direct and indirect sunlight",
+      "Use a light meter app to measure light intensity",
+      "Position plants according to their light preferences",
+      "Consider grow lights for low-light spaces"
+    ],
+    "tips": [
+      "South-facing windows get the most light",
+      "Rotate plants weekly for even growth",
+      "Sheer curtains can provide perfect indirect light"
+    ],
+    "icon": "Sun"
+  },
+  {
+    "id": "4",
+    "title": "Soil and Repotting Basics",
+    "duration": "8 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.6,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": true,
+    "description": "Learn about different soil types and when and how to repot your plants.",
+    "steps": [
+      "Choose the right soil mix for your plant type",
+      "Check if your plant needs repotting (roots growing out of drainage holes)",
+      "Select a pot only 1-2 inches larger than the current one",
+      "Gently remove old soil and inspect roots for health",
+      "Plant at the same depth as before and water lightly"
+    ],
+    "tips": [
+      "Spring is the best time for repotting",
+      "Add perlite to improve drainage",
+      "Don't fertilize immediately after repotting"
+    ],
+    "icon": "Leaf"
+  },
+  {
+    "id": "5",
+    "title": "Temperature and Humidity Control",
+    "duration": "5 min read",
+    "difficulty": "Beginner",
+    "rating": 4.5,
+    "isCompleted": false,
+    "isBookmarked": false,
+    "hasVideo": false,
+    "description": "Create the perfect environment for your plants with proper temperature and humidity.",
+    "steps": [
+      "Maintain consistent temperatures between 65-75°F (18-24°C)",
+      "Avoid placing plants near heating/cooling vents",
+      "Increase humidity with pebble trays or humidifiers",
+      "Group plants together to create a microclimate",
+      "Monitor with a thermometer and hygrometer"
+    ],
+    "tips": [
+      "Most houseplants prefer 40-60% humidity",
+      "Misting can help but avoid fuzzy-leaved plants",
+      "Bathrooms naturally have higher humidity"
+    ],
+    "icon": "Thermometer"
+  },
+  {
+    "id": "6",
+    "title": "Fertilizing Fundamentals",
+    "duration": "6 min read",
+    "difficulty": "Intermediate",
+    "rating": 4.4,
+    "isCompleted": false,
+    "isBookmarked": true,
+    "hasVideo": true,
+    "description": "Learn when, how, and what to feed your plants for optimal growth.",
+    "steps": [
+      "Fertilize during growing season (spring and summer)",
+      "Dilute liquid fertilizer to half the recommended strength",
+      "Apply fertilizer to moist soil, never dry soil",
+      "Look for signs your plant needs feeding: slow growth, pale leaves",
+      "Stop fertilizing in fall and winter when growth slows"
+    ],
+    "tips": [
+      "Less is more when it comes to fertilizing",
+      "Organic fertilizers release nutrients slowly",
+      "Flush soil occasionally to prevent salt buildup"
+    ],
+    "icon": "Heart"
+  }
+]

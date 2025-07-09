@@ -22,6 +22,7 @@ import UserDashboard from "@/components/user-dashboard";
 import SystemStatus from "@/components/system-status";
 import { trackUserEngagement } from "@/components/monitoring-provider";
 
+
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
