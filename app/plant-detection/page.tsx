@@ -1,47 +1,121 @@
 "use client"
 
-import type React from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Camera, Upload, Loader2, Leaf, Heart, Sparkles } from "lucide-react"
+import { ArrowLeft, Camera, Upload, Loader2, Leaf, Heart, Sparkles, ChevronRight, Bookmark, Share2 } from "lucide-react"
 import Image from "next/image"
+import db, { auth } from "@/lib/firebaseConfig"
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore"
+import { toast } from "sonner"
+
+interface DetectionResult {
+  plantName: string
+  confidence: number
+  disease?: string
+  careInstructions: string[]
+  healthStatus: string
+  growthStage: string
+  timestamp?: string
+  imageUrl?: string
+}
 
 export default function PlantDetection() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [analysisResult, setAnalysisResult] = useState<string | null>(null)
+  const [isCameraLoading, setIsCameraLoading] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState<DetectionResult | null>(null)
+  const [history, setHistory] = useState<DetectionResult[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isCameraActive, setIsCameraActive] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+
+  // Check if API key is available
+  if (!process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY) {
+    console.error("Hugging Face API key is missing")
+  }
+
+  // Load user's history from Firebase
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (auth.currentUser) {
+        try {
+          const q = query(collection(db, "plantAnalyses"), where("userId", "==", auth.currentUser.uid))
+          const querySnapshot = await getDocs(q)
+          const userHistory = querySnapshot.docs.map(doc => {
+            const data = doc.data() as DetectionResult
+            return {
+              ...data,
+              id: doc.id // Include document ID for reference
+            }
+          })
+          setHistory(userHistory)
+        } catch (error) {
+          console.error("Error fetching history:", error)
+          toast.error("Failed to load history")
+        }
+      }
+    }
+
+    fetchHistory()
+  }, [])
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
+      if (!file.type.match('image.*')) {
+        toast.error('Please upload an image file (JPEG, PNG)')
+        return
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Image size should be less than 5MB')
+        return
+      }
+
       const reader = new FileReader()
       reader.onload = (e) => {
         const result = e.target?.result as string
         setSelectedImage(result)
         analyzeImage(result)
       }
+      reader.onerror = () => {
+        toast.error('Failed to read image file')
+      }
       reader.readAsDataURL(file)
     }
   }
 
   const startCamera = async () => {
+    setIsCameraLoading(true)
     try {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error("Camera API not supported in this browser")
+      }
+      
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: {
+          facingMode: "environment",
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        }
       })
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play()
+        }
         setIsCameraActive(true)
       }
     } catch (error) {
-      console.error("Error accessing camera:", error)
-      alert("Unable to access camera. Please try uploading an image instead.")
+      console.error("Camera Error:", error)
+      toast.error(`Camera Error: ${error instanceof Error ? error.message : 'Unable to access camera'}`)
+      setIsCameraActive(false)
+    } finally {
+      setIsCameraLoading(false)
     }
   }
 
@@ -60,7 +134,6 @@ export default function PlantDetection() {
         setSelectedImage(imageData)
         analyzeImage(imageData)
 
-        // Stop camera
         const stream = video.srcObject as MediaStream
         stream?.getTracks().forEach((track) => track.stop())
         setIsCameraActive(false)
@@ -71,14 +144,33 @@ export default function PlantDetection() {
   const analyzeImage = async (imageData: string) => {
     setIsAnalyzing(true)
     setAnalysisResult(null)
+    toast.info('Analyzing your plant...', { duration: 2000 })
 
-    // Simulate AI analysis
-    setTimeout(() => {
-      setAnalysisResult(
-        "🌿 **Monstera Deliciosa** (Swiss Cheese Plant)\n\n**Confidence:** 94%\n\n**Care Instructions:**\n• Bright, indirect light ☀️\n• Water when top soil is dry 💧\n• High humidity preferred 💨\n• Temperature: 65-80°F 🌡️\n\n**Health Status:** Healthy specimen ✨\n**Growth Stage:** Mature 🌱",
-      )
+    try {
+      // Mock data for testing - comment this out for real API calls
+      await new Promise(resolve => setTimeout(resolve, 1500))
+      const mockResult: DetectionResult = {
+        plantName: "Monstera Deliciosa",
+        confidence: 92,
+        disease: "No disease detected",
+        careInstructions: [
+          "Bright, indirect light",
+          "Water when top 2 inches of soil are dry",
+          "Prefers 60-80% humidity"
+        ],
+        healthStatus: "Healthy",
+        growthStage: "Mature",
+        imageUrl: imageData
+      }
+      setAnalysisResult(mockResult)
+      return
+
+    } catch (error) {
+      console.error("Analysis error:", error)
+      toast.error(`Analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
       setIsAnalyzing(false)
-    }, 2000)
+    }
   }
 
   const resetAnalysis = () => {
@@ -88,37 +180,89 @@ export default function PlantDetection() {
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
+    if (videoRef.current?.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream
+      stream.getTracks().forEach(track => track.stop())
+      setIsCameraActive(false)
+    }
+  }
+
+  const saveToCollection = async () => {
+    if (!analysisResult) return
+    
+    setIsSaving(true)
+    try {
+      if (!auth.currentUser) {
+        toast.error("Please sign in to save to your collection")
+        return
+      }
+      
+      await addDoc(collection(db, "savedPlants"), {
+        userId: auth.currentUser.uid,
+        ...analysisResult,
+        savedAt: serverTimestamp()
+      })
+      toast.success("Saved to your collection!")
+    } catch (error) {
+      console.error("Error saving to collection:", error)
+      toast.error("Failed to save to collection")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const shareResults = async () => {
+    if (!analysisResult) return
+
+    try {
+      const shareData = {
+        title: `My ${analysisResult.plantName} Analysis`,
+        text: `I just analyzed my ${analysisResult.plantName} using EcoSnap! Health: ${analysisResult.healthStatus}, Confidence: ${analysisResult.confidence}%`,
+        url: window.location.href,
+      }
+
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(shareData.text)
+        toast.success("Results copied to clipboard!")
+      }
+    } catch (error) {
+      console.error("Error sharing:", error)
+      toast.error("Failed to share results")
+    }
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto p-4 md:p-6">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center justify-between gap-4 mb-6 md:mb-8">
           <Link href="/">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to EcoSnap
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to EcoSnap
+            </Button>
+          </Link>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
-            Eco Snap 
+              Eco Snap
             </h1>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
           {/* Left Section - Image Capture/Upload */}
           <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden">
-            <CardContent className="p-8 space-y-6">
+            <CardContent className="p-6 md:p-8 space-y-6">
               <div className="text-center">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full mb-4">
                   <Camera className="w-5 h-5 text-emerald-600" />
@@ -138,10 +282,20 @@ export default function PlantDetection() {
                     <Button
                       onClick={startCamera}
                       size="lg"
+                      disabled={isCameraLoading}
                       className="w-full max-w-xs bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
-                      <Camera className="w-5 h-5 mr-2" />
-                      Use Camera
+                      {isCameraLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                          Starting Camera...
+                        </>
+                      ) : (
+                        <>
+                          <Camera className="w-5 h-5 mr-2" />
+                          Use Camera
+                        </>
+                      )}
                     </Button>
 
                     <div className="flex items-center gap-3">
@@ -165,7 +319,13 @@ export default function PlantDetection() {
 
               {isCameraActive && (
                 <div className="space-y-4">
-                  <video ref={videoRef} autoPlay playsInline className="w-full rounded-2xl shadow-lg" />
+                  <video 
+                    ref={videoRef} 
+                    autoPlay 
+                    playsInline 
+                    muted
+                    className="w-full rounded-2xl shadow-lg aspect-video object-cover bg-black"
+                  />
                   <div className="flex gap-3">
                     <Button
                       onClick={capturePhoto}
@@ -191,13 +351,13 @@ export default function PlantDetection() {
 
               {selectedImage && (
                 <div className="space-y-4">
-                  <div className="relative">
+                  <div className="relative rounded-2xl overflow-hidden aspect-square">
                     <Image
-                      src={selectedImage || "/placeholder.svg"}
+                      src={selectedImage}
                       alt="Selected plant"
                       width={400}
-                      height={300}
-                      className="w-full rounded-2xl object-cover shadow-lg"
+                      height={400}
+                      className="w-full h-full object-cover shadow-lg"
                     />
                     <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2">
                       <Heart className="w-5 h-5 text-emerald-500" />
@@ -214,14 +374,20 @@ export default function PlantDetection() {
                 </div>
               )}
 
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                accept="image/*" 
+                onChange={handleImageUpload} 
+                className="hidden" 
+              />
               <canvas ref={canvasRef} className="hidden" />
             </CardContent>
           </Card>
 
           {/* Right Section - Analysis Results */}
           <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden">
-            <CardContent className="p-8 space-y-6">
+            <CardContent className="p-6 md:p-8 space-y-6">
               <div className="text-center">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-100 to-emerald-100 px-4 py-2 rounded-full mb-4">
                   <Sparkles className="w-5 h-5 text-teal-600" />
@@ -260,31 +426,116 @@ export default function PlantDetection() {
                 {analysisResult && (
                   <div className="w-full space-y-6">
                     <div className="bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200 rounded-2xl p-6 shadow-inner">
-                      <div className="whitespace-pre-line text-sm text-emerald-800 leading-relaxed">
-                        {analysisResult}
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-bold text-emerald-900">{analysisResult.plantName}</h3>
+                            {analysisResult.disease && (
+                              <p className="text-sm text-emerald-700">{analysisResult.disease}</p>
+                            )}
+                          </div>
+                          <div className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">
+                            {analysisResult.confidence}% confidence
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <p className="text-sm text-emerald-800">
+                              <span className="font-semibold">Health:</span> {analysisResult.healthStatus}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <p className="text-sm text-emerald-800">
+                              <span className="font-semibold">Growth Stage:</span> {analysisResult.growthStage}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="pt-3">
+                          <h4 className="font-semibold text-emerald-900 mb-2">Care Instructions</h4>
+                          <ul className="space-y-2">
+                            {analysisResult.careInstructions.map((instruction, index) => (
+                              <li key={index} className="flex items-start gap-2">
+                                <ChevronRight className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                                <p className="text-sm text-emerald-800">{instruction}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     </div>
 
                     <div className="flex gap-3">
                       <Button
                         size="sm"
+                        onClick={saveToCollection}
+                        disabled={isSaving}
                         className="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 rounded-full shadow-lg"
                       >
-                        <Heart className="w-4 h-4 mr-2" />
-                        Save to Collection
+                        {isSaving ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Bookmark className="w-4 h-4 mr-2" />
+                            Save to Collection
+                          </>
+                        )}
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
+                        onClick={shareResults}
                         className="flex-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50 rounded-full bg-transparent"
                       >
-                        <Sparkles className="w-4 h-4 mr-2" />
+                        <Share2 className="w-4 h-4 mr-2" />
                         Share Results
                       </Button>
                     </div>
                   </div>
                 )}
               </div>
+
+              {/* History Section */}
+              {history.length > 0 && (
+                <div className="pt-6 border-t border-emerald-100">
+                  <h3 className="text-sm font-semibold text-emerald-700 mb-3">Recent Analyses</h3>
+                  <div className="space-y-3">
+                    {history.slice(0, 3).map((item, index) => (
+                      <div 
+                        key={index} 
+                        className="flex items-center gap-3 p-3 bg-emerald-50 rounded-xl cursor-pointer hover:bg-emerald-100 transition-colors"
+                        onClick={() => {
+                          setSelectedImage(item.imageUrl || null)
+                          setAnalysisResult(item)
+                        }}
+                      >
+                        {item.imageUrl && (
+                          <div className="w-12 h-12 rounded-lg overflow-hidden">
+                            <Image
+                              src={item.imageUrl}
+                              alt={item.plantName}
+                              width={48}
+                              height={48}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-emerald-900 truncate">{item.plantName}</p>
+                          <p className="text-xs text-emerald-600">{item.healthStatus}</p>
+                        </div>
+                        <div className="text-xs font-bold text-emerald-700">{item.confidence}%</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

@@ -5,6 +5,42 @@ interface HFResult {
   score: number;
 }
 
+import db from '@/lib/firebaseConfig'
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
+import { auth } from "@/lib/firebaseConfig"
+
+const saveAnalysisResult = async (data: {
+  disease: string
+  confidence: number
+  severity: string
+  image?: string
+}) => {
+  const user = auth.currentUser
+  if (!user) return
+
+  try {
+    await addDoc(collection(db, "analysisResults"), {
+      userId: user.uid,
+      disease: data.disease,
+      confidence: data.confidence,
+      severity: data.severity,
+      image: data.image || null,
+      timestamp: serverTimestamp()
+    })
+    console.log("Result saved to Firestore")
+  } catch (error) {
+    console.error("Error saving result:", error)
+  }
+}
+
+saveAnalysisResult({
+  disease: "Healthy Plant",
+  confidence: 14,
+  severity: "Low",
+  image: "optional_image_url"
+})
+
+
 const diseaseDatabase = {
   apple_scab: {
     disease: "Apple Scab",

@@ -4,9 +4,12 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Upload, Camera, Leaf, AlertTriangle, CheckCircle, Loader2, TrendingUp, Heart } from "lucide-react"
+import { Upload, Camera, Leaf, AlertTriangle, CheckCircle, Loader2, TrendingUp, Share2 } from "lucide-react"
 import Image from "next/image"
 import { trackAPICall, trackPlantAnalysis, trackUserEngagement, trackError } from "@/components/monitoring-provider"
+import db, { auth } from "@/lib/firebaseConfig" 
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore"
+import { toast } from "sonner"
 
 interface DetectionResult {
   disease: string
@@ -24,7 +27,6 @@ export default function PlantDiseaseDetector() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [result, setResult] = useState<DetectionResult | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
   const [analysisStats, setAnalysisStats] = useState({
     total: 0,
     success: 0,
@@ -33,33 +35,46 @@ export default function PlantDiseaseDetector() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    // Load user data and stats
-    const savedUser = localStorage.getItem("ecosnap-user")
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-    }
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        await loadAnalysisStats(user.uid)
+      } else {
+        setAnalysisStats({ total: 0, success: 0, avgConfidence: 0 })
+      }
+    })
 
-    // Load analysis stats
-    const savedHistory = localStorage.getItem("ecosnap-history")
-    if (savedHistory) {
-      const history = JSON.parse(savedHistory)
-      const total = history.length
-      const success = history.filter((h: any) => h.confidence > 50).length
-      const avgConfidence = history.reduce((acc: number, h: any) => acc + h.confidence, 0) / total || 0
-      setAnalysisStats({ total, success, avgConfidence })
-    }
-
-    // Track page view
     trackUserEngagement("page_view", "Plant Detector", "main")
+
+    return () => unsubscribe()
   }, [])
+
+  const loadAnalysisStats = async (userId: string) => {
+    try {
+      const q = query(collection(db, "analysisResults"), where("userId", "==", userId))
+      const querySnapshot = await getDocs(q)
+      
+      if (querySnapshot.empty) {
+        setAnalysisStats({ total: 0, success: 0, avgConfidence: 0 })
+        return
+      }
+
+      const history = querySnapshot.docs.map(doc => doc.data())
+      const total = history.length
+      const success = history.filter(h => h.confidence > 50).length
+      const avgConfidence = history.reduce((acc, h) => acc + h.confidence, 0) / total || 0
+      
+      setAnalysisStats({ total, success, avgConfidence })
+    } catch (error) {
+      console.error("Error loading analysis stats:", error)
+      trackError(error instanceof Error ? error : new Error('Failed to load analysis stats'), "firebase_load_stats")
+    }
+  }
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      // Track image upload
       trackUserEngagement("image_upload", "Plant Detector", file.type)
 
-      // Check file size (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         const error = new Error("Image size must be less than 10MB")
         setError(error.message)
@@ -85,7 +100,6 @@ export default function PlantDiseaseDetector() {
     const startTime = Date.now()
 
     try {
-      // Track analysis start
       trackUserEngagement("analysis_start", "Plant Detector", "ai_detection")
 
       const response = await fetch("/api/analyze-plant", {
@@ -95,7 +109,7 @@ export default function PlantDiseaseDetector() {
         },
         body: JSON.stringify({
           image: selectedImage,
-          userId: user?.email,
+          userId: auth.currentUser?.uid,
         }),
       })
 
@@ -108,30 +122,17 @@ export default function PlantDiseaseDetector() {
       const data = await response.json()
       setResult(data)
 
-      // Track successful analysis
       trackAPICall("/api/analyze-plant", analysisTime, true)
       trackPlantAnalysis(true, data.disease, data.confidence, analysisTime)
 
-      // Save to user history if signed in
-      if (user) {
-        const savedHistory = localStorage.getItem("ecosnap-history")
-        const history = savedHistory ? JSON.parse(savedHistory) : []
-        const newAnalysis = {
-          id: data.analysisId,
+      if (auth.currentUser) {
+        await saveAnalysis({
           disease: data.disease,
           confidence: data.confidence,
           severity: data.severity,
-          timestamp: data.timestamp,
-          image: selectedImage,
-        }
-        const updatedHistory = [newAnalysis, ...history].slice(0, 50)
-        localStorage.setItem("ecosnap-history", JSON.stringify(updatedHistory))
-
-        // Update stats
-        const total = updatedHistory.length
-        const success = updatedHistory.filter((h: any) => h.confidence > 50).length
-        const avgConfidence = updatedHistory.reduce((acc: number, h: any) => acc + h.confidence, 0) / total
-        setAnalysisStats({ total, success, avgConfidence })
+          image: selectedImage
+        })
+        await loadAnalysisStats(auth.currentUser.uid)
       }
     } catch (err) {
       const analysisTime = Date.now() - startTime
@@ -139,7 +140,6 @@ export default function PlantDiseaseDetector() {
 
       setError("Failed to analyze image. Please try again.")
 
-      // Track error
       trackError(error, "plant_analysis")
       trackAPICall("/api/analyze-plant", analysisTime, false, error.message)
       trackPlantAnalysis(false, "unknown", 0, analysisTime)
@@ -147,6 +147,30 @@ export default function PlantDiseaseDetector() {
       console.error("Analysis error:", error)
     } finally {
       setIsAnalyzing(false)
+    }
+  }
+
+  const saveAnalysis = async (result: {
+    disease: string
+    confidence: number
+    severity: string
+    image?: string
+  }) => {
+    try {
+      const user = auth.currentUser
+      if (!user) return
+
+      await addDoc(collection(db, "analysisResults"), {
+        userId: user.uid,
+        disease: result.disease,
+        confidence: result.confidence,
+        severity: result.severity,
+        timestamp: serverTimestamp(),
+        image: result.image || ""
+      })
+    } catch (error) {
+      console.error("Error saving analysis:", error)
+      trackError(error instanceof Error ? error : new Error('Failed to save analysis'), "firebase_save_analysis")
     }
   }
 
@@ -176,10 +200,32 @@ export default function PlantDiseaseDetector() {
     }
   }
 
+  const shareResults = async () => {
+    if (!result) return
+
+    try {
+      const shareData = {
+        title: `Plant Disease Detection Results`,
+        text: `My plant has ${result.disease} (${result.confidence}% confidence). Severity: ${result.severity}. Treatment: ${result.treatment[0]}`,
+        url: window.location.href,
+      }
+
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        await navigator.clipboard.writeText(shareData.text)
+        toast.success("Results copied to clipboard!")
+      }
+    } catch (error) {
+      console.error("Error sharing:", error)
+      toast.error("Failed to share results")
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Stats Bar */}
-      {user && analysisStats.total > 0 && (
+      {auth.currentUser && analysisStats.total > 0 && (
         <Card className="bg-white/90 backdrop-blur-md border border-white/20 shadow-xl">
           <CardContent className="pt-6">
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -206,7 +252,6 @@ export default function PlantDiseaseDetector() {
           <CardTitle className="flex items-center gap-2 text-green-700 text-2xl font-black">
             <Camera className="w-7 h-7" />
             AI-Powered Plant Disease Detection
-           
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -291,10 +336,21 @@ export default function PlantDiseaseDetector() {
           {/* Disease Information */}
           <Card className="bg-white/90 backdrop-blur-md border border-white/20 shadow-2xl">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-700 text-xl font-black">
-                <Leaf className="w-6 h-6" />
-                AI Detection Results
-              </CardTitle>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2 text-green-700 text-xl font-black">
+                  <Leaf className="w-6 h-6" />
+                  AI Detection Results
+                </CardTitle>
+                <Button
+                  onClick={shareResults}
+                  variant="outline"
+                  size="sm"
+                  className="border-green-300 text-green-700 hover:bg-green-50"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -377,32 +433,31 @@ export default function PlantDiseaseDetector() {
       {/* Feature Info Cards */}
       <div className="grid md:grid-cols-3 gap-4 mt-8">
         <Link href="/ai-features">
-        <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
-          <CardContent className="pt-6 text-center">
-            <Camera className="w-10 h-10 mx-auto text-green-600 mb-3" />
-            <h3 className="font-black text-green-800 text-lg">AI-Powered Analysis</h3>
-            <p className="text-sm text-green-600 mt-1 font-medium">Advanced ML models detect 30+ diseases</p>
-          </CardContent>
-        </Card>
-</Link>
-         <Link href="/monitoring">
-        <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
-          <CardContent className="pt-6 text-center">
-            <TrendingUp className="w-10 h-10 mx-auto text-blue-600 mb-3" />
-            <h3 className="font-black text-blue-800 text-lg">Real-time Monitoring</h3>
-            <p className="text-sm text-blue-600 mt-1 font-medium">Track performance with advanced analytics</p>
-          </CardContent>
-        </Card>
-      </Link>
-
+          <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
+            <CardContent className="pt-6 text-center">
+              <Camera className="w-10 h-10 mx-auto text-green-600 mb-3" />
+              <h3 className="font-black text-green-800 text-lg">AI-Powered Analysis</h3>
+              <p className="text-sm text-green-600 mt-1 font-medium">Advanced ML models detect 30+ diseases</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/monitoring">
+          <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
+            <CardContent className="pt-6 text-center">
+              <TrendingUp className="w-10 h-10 mx-auto text-blue-600 mb-3" />
+              <h3 className="font-black text-blue-800 text-lg">Real-time Monitoring</h3>
+              <p className="text-sm text-blue-600 mt-1 font-medium">Track performance with advanced analytics</p>
+            </CardContent>
+          </Card>
+        </Link>
         <Link href="/expert-tips">
-        <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
-          <CardContent className="pt-6 text-center">
-            <CheckCircle className="w-10 h-10 mx-auto text-purple-600 mb-3" />
-            <h3 className="font-black text-purple-800 text-lg">Expert Recommendations</h3>
-            <p className="text-sm text-purple-600 mt-1 font-medium">Curated treatment plans from specialists</p>
-          </CardContent>
-        </Card>
+          <Card className="bg-white/80 border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
+            <CardContent className="pt-6 text-center">
+              <CheckCircle className="w-10 h-10 mx-auto text-purple-600 mb-3" />
+              <h3 className="font-black text-purple-800 text-lg">Expert Recommendations</h3>
+              <p className="text-sm text-purple-600 mt-1 font-medium">Curated treatment plans from specialists</p>
+            </CardContent>
+          </Card>
         </Link>
       </div>
     </div>
