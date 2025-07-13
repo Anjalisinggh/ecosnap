@@ -1,5 +1,6 @@
 "use client";
 
+import { FaInstagram, FaTwitter, FaGithub } from "react-icons/fa"
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -120,7 +121,7 @@ export default function Home() {
               </Link>
               <Link href="/plant-care" className="w-full sm:w-auto">
                 <button className="w-full bg-white/80 hover:bg-white text-gray-700 font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm text-sm sm:text-base">
-                  <BookOpen className="w-4 h-4 sm:w-5 sm:w-5" />
+                  <BookOpen className="w-4 h-4 sm:w-5" />
                   Learn Plant Care
                 </button>
               </Link>
@@ -232,7 +233,68 @@ export default function Home() {
           </TabsContent>
         </Tabs>
       </div>
+
+            {/* Footer Section */}
+    <footer className="bg-white/80 backdrop-blur-md border-t border-white/20 py-3 relative z-10">
+  <div className="container mx-auto px-4">
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div className="flex items-center gap-2">
+        <h2 className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-600 font-logo">
+          EcoSnap
+        </h2>
+        <span className="text-xs text-gray-500 hidden sm:inline">|</span>
+        <p className="text-xs text-gray-600">
+          AI-powered plant care
+        </p>
+      </div>
+      
+      <div className="flex items-center gap-4">
+         <div className="flex items-center gap-2">
+          <p className="text-xs text-gray-500">
+            © {new Date().getFullYear()} EcoSnap
+          </p>
+          <span className="text-xs text-gray-400">|</span>
+          <p className="text-xs text-gray-500">
+            Made with 🤍 by Anjali
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <a 
+            href="https://www.instagram.com/anjalisinggh_12/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-pink-600 transition-colors"
+            aria-label="Instagram"
+          >
+            <FaInstagram className="w-4 h-4" />
+          </a>
+          <a 
+            href="https://x.com/anjalisinggh12/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-blue-400 transition-colors"
+            aria-label="Twitter"
+          >
+            <FaTwitter className="w-4 h-4" />
+          </a>
+          <a 
+            href="https://github.com/Anjalisinggh" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:text-gray-800 transition-colors"
+            aria-label="GitHub"
+          >
+            <FaGithub className="w-4 h-4" />
+          </a>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</footer>
+
     </main>
+    
   );
 }
 
@@ -243,6 +305,8 @@ function AboutCard({ title, content, color }: { title: string; content: string; 
     >
       <h3 className={`text-xl sm:text-2xl font-bold text-${color}-700 mb-2 sm:mb-3`}>{title}</h3>
       <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{content}</p>
+        
     </div>
+    
   );
 }
